@@ -23,6 +23,4 @@ public class AllPlayers {
     public List<Player> getPlayers() {
         return this.players;
     }
-
-    // add method for printing players sorted in last names
 }

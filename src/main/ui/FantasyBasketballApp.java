@@ -100,7 +100,7 @@ public class FantasyBasketballApp {
                 System.out.println();
 
                 this.tmpPlayer = new Player();
-                playerExists = this.tmpPlayer.checkPlayer(playerName, this.allPlayers);
+                playerExists = this.tmpPlayer.checkPlayerExists(playerName, this.allPlayers);
                 draftPlayers(playerExists, playerName, numOfUsersIndex);
                 ++numOfUsersIndex;
             }
@@ -117,7 +117,7 @@ public class FantasyBasketballApp {
             this.userInput = input.next();
             playerName = this.userInput;
             System.out.println();
-            playerExists = this.tmpPlayer.checkPlayer(playerName, this.allPlayers);
+            playerExists = this.tmpPlayer.checkPlayerExists(playerName, this.allPlayers);
         }
 
         this.tmpPlayer.setName(playerName);

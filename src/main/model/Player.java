@@ -14,7 +14,7 @@ public class Player {
     }
 
     // EFFECTS: Checks if player has already been drafted by another user
-    public boolean checkPlayer(String playerName, AllPlayers allPlayers) {
+    public boolean checkPlayerExists(String playerName, AllPlayers allPlayers) {
         for (Player p : allPlayers.getPlayers()) {
             if (p.getName().equalsIgnoreCase(playerName)) {
                 return true;
@@ -47,10 +47,12 @@ public class Player {
         this.position = position;
     }
 
+    // REQUIRES: Height > 0 in centimetres (must be number not string)
     public void setHeight(double height) {
         this.height = height;
     }
 
+    // REQUIRES: Weight > 0 in kilograms (must be number not string)
     public void setWeight(double weight) {
         this.weight = weight;
     }

@@ -20,12 +20,14 @@ public class FantasyTeam {
         this.fantasyTeam.add(player);
     }
 
+    /*
     // REQUIRES: the player is in the users fantasy team
     // MODIFIES: this
     // EFFECTS: Kicks player from the users fantasy team
     public void removePlayer(Player player) {
         this.fantasyTeam.remove(player);
     }
+    */
 
     public String getUser() {
         return this.user;
