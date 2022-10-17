@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AllFantasyTeamsTest {
@@ -28,5 +30,26 @@ public class AllFantasyTeamsTest {
 
         assertEquals(fantasyTeam, allFantasyTeams.getTeams().get(0));
         assertEquals(fantasyTeam2, allFantasyTeams.getTeams().get(1));
+    }
+
+    @Test
+    public void getTeamsTest() {
+        List<FantasyTeam> fantasyTeams = allFantasyTeams.getTeams();
+        assertEquals(fantasyTeam, fantasyTeams.get(0));
+    }
+
+    @Test
+    public void getTeamsMultipleTest() {
+        FantasyTeam fantasyTeam2 = new FantasyTeam("Bill");
+        allFantasyTeams.addTeam(fantasyTeam2);
+
+        FantasyTeam fantasyTeam3 = new FantasyTeam("Joe");
+        allFantasyTeams.addTeam(fantasyTeam3);
+
+        List<FantasyTeam> fantasyTeams = allFantasyTeams.getTeams();
+
+        assertEquals(fantasyTeam, fantasyTeams.get(0));
+        assertEquals(fantasyTeam2, fantasyTeams.get(1));
+        assertEquals(fantasyTeam3, fantasyTeams.get(2));
     }
 }
