@@ -28,5 +28,5 @@ same time.
 ## User stories
 - As a user, I want to be able to create a fantasy team and add it to a list of teams other users have created
 - As a user, I want to be able to draft any available NBA player to my fantasy team
-- As a user, I want to be able to input a player's statistics (number of points scored, etc.)
 - As a user, I want to be able to view a player's measurements (height, weight, etc.)
+- As a user, I want to be able to view every player on my and other users fantasy teams
