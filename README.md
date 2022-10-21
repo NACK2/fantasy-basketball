@@ -26,7 +26,9 @@ will be an opportunity for me to learn, research, and develop at the
 same time. 
 
 ## User stories
-- As a user, I want to be able to create a fantasy team and add it to a list of teams other users have created
+- As a user, I want to be able to create a fantasy team and add it to a list containing all the fantasy teams
+  (Adding fantasyTeam class to allFantasyTeams class)
 - As a user, I want to be able to draft any available NBA player to my fantasy team
+  (Adding Player class to fantasyTeam class)
 - As a user, I want to be able to view a player's measurements (height, weight, etc.)
 - As a user, I want to be able to view every player on my and other users fantasy teams

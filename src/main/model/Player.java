@@ -24,15 +24,6 @@ public class Player {
         return false;
     }
 
-    // EFFECTS: displays the players name, team, position, height, and weight
-    public void printAllStats() {
-        System.out.println("Player's Name: " + getName());
-        System.out.println("Player's NBA team: " + getTeam());
-        System.out.println("Player's Position: " + getPosition());
-        System.out.println("Player's Height: " + getHeight() + " cm");
-        System.out.println("Player's Weight: " + getWeight() + " kg");
-    }
-
     // MODIFIES: this
     // EFFECTS: Creates player
     public void setName(String name) {

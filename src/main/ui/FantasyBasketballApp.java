@@ -13,7 +13,7 @@ public class FantasyBasketballApp {
     private String userInput;
     private int numOfUsers;
     private Player tmpPlayer; // temporary player holder
-    private AllFantasyTeams allfantasyTeams;
+    private AllFantasyTeams allFantasyTeams;
     private AllPlayers allPlayers;
 
     // EFFECTS: Runs the Fantasy Basketball Application
@@ -56,7 +56,7 @@ public class FantasyBasketballApp {
     // EFFECTS: Creates user profiles
     public void createUsers() {
         this.numOfUsers = 0;
-        allfantasyTeams = new AllFantasyTeams();
+        allFantasyTeams = new AllFantasyTeams();
 
         System.out.println("\nHow many users will be participating?");
         this.userInput = input.next();
@@ -70,12 +70,12 @@ public class FantasyBasketballApp {
             this.userInput = input.next();
             System.out.println("Welcome " + this.userInput + "!\n");
 
-            this.allfantasyTeams.addTeam(new FantasyTeam(this.userInput));
+            this.allFantasyTeams.addTeam(new FantasyTeam(this.userInput));
             ++i;
         }
 
         System.out.println("The users are: ");
-        this.allfantasyTeams.printUsers();
+        printUsers();
         System.out.println();
         playerCreation();
     }
@@ -106,7 +106,7 @@ public class FantasyBasketballApp {
             }
             ++numOfPlayersDrafted;
         }
-        allfantasyTeams.printAllTeams();
+        printAllTeams();
     }
 
     // MODIFIES: this
@@ -127,10 +127,10 @@ public class FantasyBasketballApp {
         assignWeight(this.tmpPlayer);
 
         System.out.println("\nSuccessfully drafted " + playerName + " to your fantasy team!");
-        this.tmpPlayer.printAllStats();
+        printAllStats(tmpPlayer);
         System.out.println();
         this.allPlayers.addPlayer(this.tmpPlayer);
-        this.allfantasyTeams.getTeams().get(index - 1).draftPlayer(this.tmpPlayer);
+        this.allFantasyTeams.getTeams().get(index - 1).draftPlayer(this.tmpPlayer);
     }
 
     public void assignTeam(Player player) {
@@ -155,6 +155,35 @@ public class FantasyBasketballApp {
         System.out.println("Please enter the players current weight in kilograms: ");
         this.userInput = input.next();
         player.setWeight(Double.parseDouble(this.userInput));
+    }
+
+    // EFFECTS: Displays all the players in every fantasy team
+    public void printAllTeams() {
+        int i = 1;
+        for (FantasyTeam f : allFantasyTeams.getTeams()) {
+            System.out.println("User " + i + "'s team: ");
+            for (Player p : f.getFantasyTeam()) {
+                System.out.println(p.getName());
+            }
+            System.out.println("-=-=-=-=-=-=-=-=-");
+            ++i;
+        }
+    }
+
+    // EFFECTS: Displays every users name
+    public void printUsers() {
+        for (FantasyTeam f : allFantasyTeams.getTeams()) {
+            System.out.println(f.getUser());
+        }
+    }
+
+    // EFFECTS: displays the players name, team, position, height, and weight
+    public void printAllStats(Player player) {
+        System.out.println("Player's Name: " + player.getName());
+        System.out.println("Player's NBA team: " + player.getTeam());
+        System.out.println("Player's Position: " + player.getPosition());
+        System.out.println("Player's Height: " + player.getHeight() + " cm");
+        System.out.println("Player's Weight: " + player.getWeight() + " kg");
     }
 
     // EFFECTS: Display main menu
