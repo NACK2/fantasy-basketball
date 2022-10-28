@@ -7,6 +7,11 @@ import java.util.List;
 public class FantasyTeam {
     private String user;
     private List<Player> fantasyTeam;
+    private int totalPoints;
+    private int totalRebounds;
+    private int totalAssists;
+    private int totalSteals;
+    private int totalBlocks;
 
     // EFFECTS: Creates a fantasy team for the user
     public FantasyTeam(String user) {
@@ -28,6 +33,46 @@ public class FantasyTeam {
         this.fantasyTeam.remove(player);
     }
     */
+
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+    public void setTotalRebounds(int totalRebounds) {
+        this.totalRebounds = totalRebounds;
+    }
+
+    public void setTotalAssists(int totalAssists) {
+        this.totalAssists = totalAssists;
+    }
+
+    public void setTotalSteals(int totalSteals) {
+        this.totalSteals = totalSteals;
+    }
+
+    public void setTotalBlocks(int totalBlocks) {
+        this.totalBlocks = totalBlocks;
+    }
+
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    public int getTotalRebounds() {
+        return totalRebounds;
+    }
+
+    public int getTotalAssists() {
+        return totalAssists;
+    }
+
+    public int getTotalSteals() {
+        return totalSteals;
+    }
+
+    public int getTotalBlocks() {
+        return totalBlocks;
+    }
 
     public String getUser() {
         return this.user;
