@@ -7,16 +7,7 @@ import model.Player;
 
 import java.util.Scanner;
 
-// THINGS TO FIX: getUserForGame() method is too long and fantasyTeam totalMatchScore is printing wrong
-
-
-
-
-
-
-
-
-
+// ADD ASSISTS, STEALS, BLOCKS CALCULATIONS
 
 // Fantasy Basketball Application
 public class FantasyBasketballApp {
@@ -30,7 +21,6 @@ public class FantasyBasketballApp {
     private String userTwo;
     private FantasyTeam userOneTeam;
     private FantasyTeam userTwoTeam;
-    private boolean keepGoing;
 
     // EFFECTS: Runs the Fantasy Basketball Application
     public FantasyBasketballApp() {
@@ -47,17 +37,17 @@ public class FantasyBasketballApp {
     // MODIFIES: this
     // EFFECTS: Processes user input
     public void runFantasyBasketballApp() {
-        this.keepGoing = true;
+        boolean keepGoing = true;
 
         initialize();
 
         displayMainMenu();
-        while (this.keepGoing) {
+        while (keepGoing) {
             this.userInput = input.next().toLowerCase();
 
             if (this.userInput.equals("q")) {
-                System.out.println("Goodbye!");
-                this.keepGoing = false;
+                goodbyeMessage();
+                keepGoing = false;
             } else if (this.userInput.equals("p")) {
                 createUsers();
             } else {
@@ -168,22 +158,22 @@ public class FantasyBasketballApp {
     // MODIFIES: this
     // EFFECTS: Asks two users to input their username, their respective teams will face off in a match
     public void getTwoUsersInput() {
-        this.keepGoing = true;
-        while (this.keepGoing) {
+        while (true) {
             displayGameMenu();
 
             System.out.println("First user: ");
             this.userOne = input.next().toLowerCase();
             if (this.userOne.equals("q")) {
-                this.keepGoing = false;
+                goodbyeMessage();
             } else if (!allFantasyTeams.userExists(this.userOne)) {
                 System.out.println("ERROR: " + this.userOne + " is an invalid username\n");
                 getTwoUsersInput();
             }
+
             System.out.println("Second user: ");
             this.userTwo = input.next().toLowerCase();
             if (this.userTwo.equals("q")) {
-                this.keepGoing = false;
+                goodbyeMessage();
             } else if (!allFantasyTeams.userExists(this.userTwo)) {
                 System.out.println("ERROR: " + this.userTwo + " is an invalid username\n");
                 getTwoUsersInput();
@@ -230,16 +220,16 @@ public class FantasyBasketballApp {
         System.out.println();
         if (this.userOneTeam.getTeamMatchScore() > this.userTwoTeam.getTeamMatchScore()) {
             System.out.println("-=-=- " + this.userOneTeam.getUser() + "'s team has won! -=-=-");
-            this.userOneTeam.incrementTotalWins();
-            this.userTwoTeam.incrementTotalLosses();
+//            this.userOneTeam.incrementTotalWins();
+//            this.userTwoTeam.incrementTotalLosses();
         } else if (this.userTwoTeam.getTeamMatchScore() > this.userOneTeam.getTeamMatchScore()) {
             System.out.println("-=-=- " + this.userTwoTeam.getUser() + "'s team has won! -=-=-\n");
-            this.userTwoTeam.incrementTotalWins();
-            this.userOneTeam.incrementTotalLosses();
+//            this.userTwoTeam.incrementTotalWins();
+//            this.userOneTeam.incrementTotalLosses();
         } else {
             System.out.println("It's a draw! No winner or loser today!");
-            this.userOneTeam.incrementTotalDraws();
-            this.userTwoTeam.incrementTotalDraws();
+//            this.userOneTeam.incrementTotalDraws();
+//            this.userTwoTeam.incrementTotalDraws();
         }
     }
 
@@ -309,6 +299,7 @@ public class FantasyBasketballApp {
         System.out.println("Hit q to quit!");
     }
 
+    // EFFECTS: Displays the rules of the game
     public void displayGameRules() {
         System.out.println();
         System.out.println("Here are the rules of the fantasy basketball league!");
@@ -320,5 +311,12 @@ public class FantasyBasketballApp {
         System.out.println("At the end, the team which accumulated the highest team score will win the season! "
                 + "Good luck and have fun!");
         System.out.println("\n-=-=-=-=-=-=-=-=-=-");
+    }
+
+    // EFFECTS: Dispalys a goodbye mssage and ends the program
+    public void goodbyeMessage() {
+        System.out.println("Thank you for playing the Fantasy Basketball App made by Nicholas Kang!");
+
+        System.exit(0);
     }
 }

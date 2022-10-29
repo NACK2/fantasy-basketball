@@ -12,9 +12,9 @@ public class FantasyTeam {
     private int totalAssists;
     private int totalSteals;
     private int totalBlocks;
-    private int totalWins;
-    private int totalLosses;
-    private int totalDraws;
+//    private int totalWins;
+//    private int totalLosses;
+//    private int totalDraws;
     private int teamMatchScore;
     private int teamTotalScore;
 
@@ -29,15 +29,6 @@ public class FantasyTeam {
     public void draftPlayer(Player player) {
         this.fantasyTeam.add(player);
     }
-
-    /*
-    // REQUIRES: the player is in the users fantasy team
-    // MODIFIES: this
-    // EFFECTS: Kicks player from the users fantasy team
-    public void removePlayer(Player player) {
-        this.fantasyTeam.remove(player);
-    }
-    */
 
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
@@ -73,20 +64,20 @@ public class FantasyTeam {
         this.teamTotalScore += this.teamMatchScore;
     }
 
-    // EFFECTS: increments total number of wins the team has
-    public void incrementTotalWins() {
-        ++this.totalWins;
-    }
-
-    // EFFECTS: increments total amount of losses the team has
-    public void incrementTotalLosses() {
-        ++this.totalLosses;
-    }
-
-    // EFFECTS: increments the total amount of draws (ties) the team has
-    public void incrementTotalDraws() {
-        ++this.totalDraws;
-    }
+//    // EFFECTS: increments total number of wins the team has
+//    public void incrementTotalWins() {
+//        ++this.totalWins;
+//    }
+//
+//    // EFFECTS: increments total amount of losses the team has
+//    public void incrementTotalLosses() {
+//        ++this.totalLosses;
+//    }
+//
+//    // EFFECTS: increments the total amount of draws (ties) the team has
+//    public void incrementTotalDraws() {
+//        ++this.totalDraws;
+//    }
 
     public int getTotalPoints() {
         return this.totalPoints;
@@ -108,17 +99,17 @@ public class FantasyTeam {
         return this.totalBlocks;
     }
 
-    public int getTotalWins() {
-        return this.totalWins;
-    }
-
-    public int getTotalLosses() {
-        return this.totalLosses;
-    }
-
-    public int getTotalDraws() {
-        return this.totalDraws;
-    }
+//    public int getTotalWins() {
+//        return this.totalWins;
+//    }
+//
+//    public int getTotalLosses() {
+//        return this.totalLosses;
+//    }
+//
+//    public int getTotalDraws() {
+//        return this.totalDraws;
+//    }
 
     public int getTeamMatchScore() {
         return this.teamMatchScore;

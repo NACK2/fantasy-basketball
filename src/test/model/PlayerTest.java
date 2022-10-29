@@ -78,4 +78,34 @@ public class PlayerTest {
         allPlayers.addPlayer(player);
         assertFalse(player.checkPlayerExists("Michael Jordan", allPlayers));
     }
+
+    @Test
+    public void setPointsTest() {
+        player.setPoints(10);
+        assertEquals(10, player.getPoints());
+    }
+
+    @Test
+    public void setReboundsTest() {
+        player.setRebounds(12);
+        assertEquals(12, player.getRebounds());
+    }
+
+    @Test
+    public void setAssistsTest() {
+        player.setAssists(6);
+        assertEquals(6, player.getAssists());
+    }
+
+    @Test
+    public void setStealsTest() {
+        player.setSteals(4);
+        assertEquals(4, player.getSteals());
+    }
+
+    @Test
+    public void setBlocksTest() {
+        player.setBlocks(2);
+        assertEquals(2, player.getBlocks());
+    }
 }
