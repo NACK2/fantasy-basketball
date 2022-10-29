@@ -313,7 +313,7 @@ public class FantasyBasketballApp {
         System.out.println("\n-=-=-=-=-=-=-=-=-=-");
     }
 
-    // EFFECTS: Dispalys a goodbye mssage and ends the program
+    // EFFECTS: Dispalys a goodbye message and ends the program
     public void goodbyeMessage() {
         System.out.println("Thank you for playing the Fantasy Basketball App made by Nicholas Kang!");
 

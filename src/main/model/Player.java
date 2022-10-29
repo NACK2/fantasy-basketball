@@ -1,6 +1,6 @@
 package model;
 
-// class for creating one player
+// Class for creating one player
 public class Player {
     private String name;
     private String team;
