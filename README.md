@@ -37,3 +37,6 @@ same time.
 - As a user, I want to be able to add a player to a class of all players
 - As a user, I want to be able to save my fantasy team to a file
 - As a user, I want to be able to load my fantasy team from a file
+
+Note: The persistence packages in main and test were modeled after 
+https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo

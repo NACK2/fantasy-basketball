@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writeable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Class for storing every fantasy team created by the users
-public class AllFantasyTeams {
+public class AllFantasyTeams implements Writeable {
     private List<FantasyTeam> allFantasyTeams;
 
     // EFFECTS: Creates list for everyones fantasy team
@@ -42,5 +46,23 @@ public class AllFantasyTeams {
         }
 
         return false;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("All Fantasy Teams", fantasyTeamsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in AllFantasyTeams as a JSON array
+    private JSONArray fantasyTeamsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (FantasyTeam f : allFantasyTeams) {
+            jsonArray.put(f.toJson());
+        }
+
+        return jsonArray;
     }
 }

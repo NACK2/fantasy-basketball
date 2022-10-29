@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writeable;
+
 // Class for creating one player
-public class Player {
+public class Player implements Writeable {
     private String name;
     private String team;
     private String position;
@@ -111,5 +114,12 @@ public class Player {
 
     public double getWeight() {
         return this.weight;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Player name", this.name);
+        return json;
     }
 }

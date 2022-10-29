@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writeable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Class for creating a fantasy team
-public class FantasyTeam {
+public class FantasyTeam implements Writeable {
     private String user;
     private List<Player> fantasyTeam;
     private int totalPoints;
@@ -125,5 +129,31 @@ public class FantasyTeam {
 
     public List<Player> getFantasyTeam() {
         return this.fantasyTeam;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Username", this.user);
+        json.put("Players", playersToJson());
+        json.put("Total points", this.totalPoints);
+        json.put("Total rebounds", this.totalRebounds);
+        json.put("Total assists", this.totalAssists);
+        json.put("Total steals", this.totalSteals);
+        json.put("Total blocks", this.totalBlocks);
+        json.put("Team match score", this.teamMatchScore);
+        json.put("Team total score", this.teamTotalScore);
+        return json;
+    }
+
+    // EFFECTS: returns things in players as a JSON array
+    private JSONArray playersToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Player p : fantasyTeam) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
     }
 }
