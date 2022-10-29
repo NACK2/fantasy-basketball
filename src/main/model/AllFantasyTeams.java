@@ -21,4 +21,26 @@ public class AllFantasyTeams {
     public List<FantasyTeam> getTeams() {
         return this.allFantasyTeams;
     }
+
+    // EFFECTS: Returns the fantasy team that the user owns
+    public FantasyTeam getUsersFantasyTeam(String user) {
+        for (FantasyTeam f : allFantasyTeams) {
+            if (f.getUser().equalsIgnoreCase(user)) {
+                return f;
+            }
+        }
+
+        return null;
+    }
+
+    // EFFECTS: If user with the correct username owns a fantasy team, return true, else return false
+    public boolean userExists(String user) {
+        for (FantasyTeam f : allFantasyTeams) {
+            if (f.getUser().equalsIgnoreCase(user)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -74,23 +74,23 @@ public class Player {
     }
 
     public int getPoints() {
-        return points;
+        return this.points;
     }
 
     public int getRebounds() {
-        return rebounds;
+        return this.rebounds;
     }
 
     public int getAssists() {
-        return assists;
+        return this.assists;
     }
 
     public int getSteals() {
-        return steals;
+        return this.steals;
     }
 
     public int getBlocks() {
-        return blocks;
+        return this.blocks;
     }
 
     public String getName() {

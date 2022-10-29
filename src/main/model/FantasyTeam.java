@@ -12,6 +12,11 @@ public class FantasyTeam {
     private int totalAssists;
     private int totalSteals;
     private int totalBlocks;
+    private int totalWins;
+    private int totalLosses;
+    private int totalDraws;
+    private int teamMatchScore;
+    private int teamTotalScore;
 
     // EFFECTS: Creates a fantasy team for the user
     public FantasyTeam(String user) {
@@ -54,24 +59,73 @@ public class FantasyTeam {
         this.totalBlocks = totalBlocks;
     }
 
+    // this is the team score for right after a match ends,
+    // used to determine which team had a higher score
+    public void setTeamMatchScore() {
+        this.teamMatchScore = this.totalPoints + this.totalRebounds + this.totalAssists + this.totalSteals
+                + this.totalBlocks;
+        setTeamTotalScore();
+    }
+
+    // this should be += instead of = because I want to accumulate what a team's total team score is after
+    // many matches
+    public void setTeamTotalScore() {
+        this.teamTotalScore += this.teamMatchScore;
+    }
+
+    // EFFECTS: increments total number of wins the team has
+    public void incrementTotalWins() {
+        ++this.totalWins;
+    }
+
+    // EFFECTS: increments total amount of losses the team has
+    public void incrementTotalLosses() {
+        ++this.totalLosses;
+    }
+
+    // EFFECTS: increments the total amount of draws (ties) the team has
+    public void incrementTotalDraws() {
+        ++this.totalDraws;
+    }
+
     public int getTotalPoints() {
-        return totalPoints;
+        return this.totalPoints;
     }
 
     public int getTotalRebounds() {
-        return totalRebounds;
+        return this.totalRebounds;
     }
 
     public int getTotalAssists() {
-        return totalAssists;
+        return this.totalAssists;
     }
 
     public int getTotalSteals() {
-        return totalSteals;
+        return this.totalSteals;
     }
 
     public int getTotalBlocks() {
-        return totalBlocks;
+        return this.totalBlocks;
+    }
+
+    public int getTotalWins() {
+        return this.totalWins;
+    }
+
+    public int getTotalLosses() {
+        return this.totalLosses;
+    }
+
+    public int getTotalDraws() {
+        return this.totalDraws;
+    }
+
+    public int getTeamMatchScore() {
+        return this.teamMatchScore;
+    }
+
+    public int getTeamTotalScore() {
+        return this.teamTotalScore;
     }
 
     public String getUser() {
