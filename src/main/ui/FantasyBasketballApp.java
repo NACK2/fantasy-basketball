@@ -4,13 +4,18 @@ import model.AllFantasyTeams;
 import model.AllPlayers;
 import model.FantasyTeam;
 import model.Player;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 // ADD ASSISTS, STEALS, BLOCKS CALCULATIONS
 
 // Fantasy Basketball Application
 public class FantasyBasketballApp {
+    private static final String JSON_STORE = "./data/allFantasyTeamsFile.json";
     private Scanner input;
     private String userInput;
     private int numOfUsers;
@@ -21,17 +26,17 @@ public class FantasyBasketballApp {
     private String userTwo;
     private FantasyTeam userOneTeam;
     private FantasyTeam userTwoTeam;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: Runs the Fantasy Basketball Application
     public FantasyBasketballApp() {
-        runFantasyBasketballApp();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: allows user input to happen
-    public void initialize() {
         this.input = new Scanner(System.in);
         this.input.useDelimiter("\n");
+        this.jsonWriter = new JsonWriter(JSON_STORE);
+        this.jsonReader = new JsonReader(JSON_STORE);
+        this.allFantasyTeams = new AllFantasyTeams();
+        runFantasyBasketballApp();
     }
 
     // MODIFIES: this
@@ -39,10 +44,8 @@ public class FantasyBasketballApp {
     public void runFantasyBasketballApp() {
         boolean keepGoing = true;
 
-        initialize();
-
-        displayMainMenu();
         while (keepGoing) {
+            displayMainMenu();
             this.userInput = input.next().toLowerCase();
 
             if (this.userInput.equals("q")) {
@@ -50,10 +53,36 @@ public class FantasyBasketballApp {
                 keepGoing = false;
             } else if (this.userInput.equals("p")) {
                 createUsers();
+            } else if (this.userInput.equals("l")) {
+                loadAllFantasyTeams();
+            } else if (this.userInput.equals("f")) {
+                printAllTeams();
             } else {
-                System.out.println("Error: Invalid input, please try again.");
-                displayMainMenu();
+                System.out.println("Error: Invalid input, please try again.\n");
             }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads all fantasy teams (and other stats) from file
+    public void loadAllFantasyTeams() {
+        try {
+            this.allFantasyTeams = this.jsonReader.read();
+            System.out.println("Loaded file from " + JSON_STORE + "\n");
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE + "\n");
+        }
+    }
+
+    // EFFECTS: saves all fantasy teams (and other stats) into file
+    public void saveAllFantasyTeams() {
+        try {
+            this.jsonWriter.open();
+            this.jsonWriter.write(this.allFantasyTeams);
+            this.jsonWriter.close();
+            System.out.println("Saved file to " + JSON_STORE + "\n");
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE + "\n");
         }
     }
 
@@ -152,31 +181,27 @@ public class FantasyBasketballApp {
     // EFFECTS: Displays rules of the game and asks for inputs
     public void setUpGame() {
         displayGameRules();
-        getTwoUsersInput();
+        setUpMatch();
     }
 
     // MODIFIES: this
     // EFFECTS: Asks two users to input their username, their respective teams will face off in a match
-    public void getTwoUsersInput() {
+    public void setUpMatch() {
         while (true) {
-            displayGameMenu();
-
+            displayBeforeGame();
+            System.out.println("Enter the usernames of two users who would like to face off!");
             System.out.println("First user: ");
             this.userOne = input.next().toLowerCase();
-            if (this.userOne.equals("q")) {
-                goodbyeMessage();
-            } else if (!allFantasyTeams.userExists(this.userOne)) {
+            if (!allFantasyTeams.userExists(this.userOne)) {
                 System.out.println("ERROR: " + this.userOne + " is an invalid username\n");
-                getTwoUsersInput();
+                setUpMatch();
             }
 
             System.out.println("Second user: ");
             this.userTwo = input.next().toLowerCase();
-            if (this.userTwo.equals("q")) {
-                goodbyeMessage();
-            } else if (!allFantasyTeams.userExists(this.userTwo)) {
+            if (!allFantasyTeams.userExists(this.userTwo)) {
                 System.out.println("ERROR: " + this.userTwo + " is an invalid username\n");
-                getTwoUsersInput();
+                setUpMatch();
             }
             this.userOneTeam = allFantasyTeams.getUsersFantasyTeam(this.userOne);
             this.userTwoTeam = allFantasyTeams.getUsersFantasyTeam(this.userTwo);
@@ -227,7 +252,7 @@ public class FantasyBasketballApp {
 //            this.userTwoTeam.incrementTotalWins();
 //            this.userOneTeam.incrementTotalLosses();
         } else {
-            System.out.println("It's a draw! No winner or loser today!");
+            System.out.println("It's a draw! No winner or loser today!\n");
 //            this.userOneTeam.incrementTotalDraws();
 //            this.userTwoTeam.incrementTotalDraws();
         }
@@ -261,7 +286,7 @@ public class FantasyBasketballApp {
     public void printAllTeams() {
         int i = 1;
         for (FantasyTeam f : allFantasyTeams.getTeams()) {
-            System.out.println("User " + i + "'s team: ");
+            System.out.println(f.getUser() + "'s team: ");
             for (Player p : f.getFantasyTeam()) {
                 System.out.println(p.getName());
             }
@@ -290,18 +315,13 @@ public class FantasyBasketballApp {
     public void displayMainMenu() {
         System.out.println("Welcome to Fantasy Basketball! Select one of the following:");
         System.out.println("\tp -> play");
+        System.out.println("\tl -> load all fantasy teams from file");
+        System.out.println("\tf -> print all fantasy teams");
         System.out.println("\tq -> quit");
-    }
-
-    // EFFECTS: Displays game menu
-    public void displayGameMenu() {
-        System.out.println("Enter the usernames of two users who would like to face off!");
-        System.out.println("Hit q to quit!");
     }
 
     // EFFECTS: Displays the rules of the game
     public void displayGameRules() {
-        System.out.println();
         System.out.println("Here are the rules of the fantasy basketball league!");
         System.out.println("Two users who wish to have a match may do so, and a team score is assigned to both "
                 + "of these teams after the match ends.");
@@ -311,6 +331,25 @@ public class FantasyBasketballApp {
         System.out.println("At the end, the team which accumulated the highest team score will win the season! "
                 + "Good luck and have fun!");
         System.out.println("\n-=-=-=-=-=-=-=-=-=-");
+    }
+
+    // EFFECTS: Displays before game menu, consists of save game and quit game
+    public void displayBeforeGame() {
+        System.out.println("Before moving on: ");
+        System.out.println("Hit s to save!");
+        System.out.println("Hit q to quit!");
+        System.out.println("To go continue without saving, enter any key");
+
+        this.userInput = input.next();
+        this.userInput = this.userInput.toLowerCase();
+
+        if (this.userInput.equals("s")) {
+            saveAllFantasyTeams();
+        } else if (this.userInput.equals("q")) {
+            goodbyeMessage();
+        } else {
+            return;
+        }
     }
 
     // EFFECTS: Dispalys a goodbye message and ends the program
