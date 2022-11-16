@@ -216,10 +216,18 @@ public class FantasyBasketballApp {
         GameCalculations gameCalculations = new GameCalculations();
         gameCalculations.calculatePlayerPoints(this.userOneTeam);
         gameCalculations.calculatePlayerPoints(this.userTwoTeam);
+
         gameCalculations.calculatePlayerRebounds(this.userOneTeam);
         gameCalculations.calculatePlayerRebounds(this.userTwoTeam);
 
-        // DO THIS FOR, ASSISTS, STEALS, BLOCKS
+        gameCalculations.calculatePlayerAssists(this.userOneTeam);
+        gameCalculations.calculatePlayerAssists(this.userTwoTeam);
+
+        gameCalculations.calculatePlayerSteals(this.userOneTeam);
+        gameCalculations.calculatePlayerSteals(this.userTwoTeam);
+
+        gameCalculations.calculatePlayerBlocks(this.userOneTeam);
+        gameCalculations.calculatePlayerBlocks(this.userTwoTeam);
 
         printGameStats(this.userOneTeam);
         printGameStats(this.userTwoTeam);
@@ -326,7 +334,7 @@ public class FantasyBasketballApp {
         System.out.println("Two users who wish to have a match may do so, and a team score is assigned to both "
                 + "of these teams after the match ends.");
         System.out.println("A team score is calculated by the sum of the points, rebounds, assists, steals, and"
-                + " blocks made by every player in a team");
+                + " blocks made by every player in a team.");
         System.out.println("The team with the higher team score will win the match!");
         System.out.println("At the end, the team which accumulated the highest team score will win the season! "
                 + "Good luck and have fun!");

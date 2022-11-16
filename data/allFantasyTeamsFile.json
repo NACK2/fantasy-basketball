@@ -1,36 +1,36 @@
 {"All Fantasy Teams": [
-  {
-    "Team total score": 342,
-    "Total blocks": 0,
-    "Team match score": 116,
-    "Total assists": 0,
-    "Total points": 70,
-    "Username": "Nick",
-    "Total rebounds": 46,
-    "Total steals": 0,
-    "Players": [
-      {"Player name": "LeBron James"},
-      {"Player name": "Kevin Durant"},
-      {"Player name": "Magic Johnson"},
-      {"Player name": "Michael Jordan"},
-      {"Player name": "Kobe Bryant"}
-    ]
-  },
-  {
-    "Team total score": 285,
-    "Total blocks": 0,
-    "Team match score": 93,
-    "Total assists": 0,
-    "Total points": 46,
-    "Username": "Hugo",
-    "Total rebounds": 47,
-    "Total steals": 0,
-    "Players": [
-      {"Player name": "LiAngelo Ball"},
-      {"Player name": "LaMelo Ball"},
-      {"Player name": "Lonzo Ball"},
-      {"Player name": "Fat Lever"},
-      {"Player name": "Metta World-Peace"}
-    ]
-  }
+    {
+        "Team total score": 230,
+        "Total blocks": 0,
+        "Team match score": 121,
+        "Total assists": 0,
+        "Total points": 82,
+        "Username": "Nick",
+        "Total rebounds": 39,
+        "Total steals": 0,
+        "Players": [
+            {"Player name": "Michael Jordan"},
+            {"Player name": "LeBron James"},
+            {"Player name": "Kevin Durant"},
+            {"Player name": "Anthony Edwards"},
+            {"Player name": "DeMar DeRozen"}
+        ]
+    },
+    {
+        "Team total score": 253,
+        "Total blocks": 0,
+        "Team match score": 103,
+        "Total assists": 0,
+        "Total points": 60,
+        "Username": "Hugo",
+        "Total rebounds": 43,
+        "Total steals": 0,
+        "Players": [
+            {"Player name": "LaMelo Ball"},
+            {"Player name": "Lonzo Ball"},
+            {"Player name": "Carmelo Anthony"},
+            {"Player name": "Jeremy Lin"},
+            {"Player name": "Patrick Ewing"}
+        ]
+    }
 ]}
