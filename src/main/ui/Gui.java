@@ -25,6 +25,7 @@ public class Gui extends JFrame implements ActionListener {
     private JLabel lblPlayerPosition;
     private JLabel lblPlayerHeight;
     private JLabel lblPlayerWeight;
+    private JLabel lblSeePlayersDrafted;
 
     private JTextField textUserOne;
     private JTextField textUserTwo;
@@ -33,6 +34,8 @@ public class Gui extends JFrame implements ActionListener {
     private JButton btnSubmitUsers;
     private JButton btnSubmitPlayersUserOne;
     private JButton btnSubmitPlayersUserTwo;
+    private JButton btnYes;
+    private JButton btnNo;
 
     private ImageIcon basketballCourtImg;
     private Border border;
@@ -43,6 +46,7 @@ public class Gui extends JFrame implements ActionListener {
     private List<String> playerHeights;
     private List<String> playerWeights;
     private FantasyTeam teamOne;
+    private FantasyTeam teamTwo;
     private AllPlayers allPlayers;
 
     // EFFECTS: Runs the GUI made with Swing
@@ -65,8 +69,7 @@ public class Gui extends JFrame implements ActionListener {
         initStartUpScreen();
         initGetUsers();
         initGetPlayers();
-        //teamOne = new FantasyTeam();
-        allPlayers = new AllPlayers();
+        initSeePlayersDrafted();
     }
 
     // MODIFIES: this
@@ -107,6 +110,13 @@ public class Gui extends JFrame implements ActionListener {
         lblGetPlayers = new JLabel();
         btnSubmitPlayersUserOne = new JButton("Submit");
         btnSubmitPlayersUserTwo = new JButton("Submit");
+        allPlayers = new AllPlayers();
+    }
+
+    public void initSeePlayersDrafted() {
+        lblSeePlayersDrafted = new JLabel();
+        btnYes = new JButton("Yes");
+        btnNo = new JButton("No");
     }
 
     // MODIFIES: this
@@ -133,21 +143,22 @@ public class Gui extends JFrame implements ActionListener {
 
     // EFFECTS: Displays all buttons on start up screen
     public void startUpScreenButtons() {
-        playButton();
+        buttonPlay();
     }
 
     // MODIFIES: this
     // EFFECTS: Displays play button
-    public void playButton() {
+    public void buttonPlay() {
         btnPlay.setBounds(350, 500, 120, 50);
         btnPlay.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
         btnPlay.setBackground(Color.LIGHT_GRAY);
         btnPlay.setForeground(Color.BLACK);
         btnPlay.setFont(new Font("Plain", Font.BOLD, 20));
-        lblStartUpScreen.add(btnPlay);
-        add(lblStartUpScreen);
         btnPlay.addActionListener(this);
         btnPlay.setFocusable(false);
+
+        lblStartUpScreen.add(btnPlay);
+        add(lblStartUpScreen);
     }
 
     // MODIFIES: this
@@ -169,6 +180,8 @@ public class Gui extends JFrame implements ActionListener {
         panel.setOpaque(false); // makes panel have transparent background
         btnSubmitUsers.addActionListener(this);
         btnSubmitUsers.setFocusable(false);
+        teamOne = new FantasyTeam(textUserOne.getText());
+        teamTwo = new FantasyTeam(textUserTwo.getText());
     }
 
     // MODIFIES: this
@@ -211,9 +224,10 @@ public class Gui extends JFrame implements ActionListener {
         addTextFields();
         panel.add(btnSubmitPlayersUserOne);
 
-        getPlayersChangeFont();
         btnSubmitPlayersUserOne.addActionListener(this);
         btnSubmitPlayersUserOne.setFocusable(false);
+
+        getPlayersChangeFont();
     }
 
     // MODIFIES: this
@@ -277,7 +291,7 @@ public class Gui extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: Creates players and adds players to users fantasy team
-    public void createFantasyTeam() {
+    public void createFantasyTeam(FantasyTeam team) {
         Player player;
         for (int i = 0; i <= 4; ++i) {
             player = new Player();
@@ -286,9 +300,46 @@ public class Gui extends JFrame implements ActionListener {
             player.setPosition(playerPositions.get(i));
             player.setHeight(Double.parseDouble(playerHeights.get(i)));
             player.setWeight(Double.parseDouble(playerWeights.get(i)));
-            teamOne.draftPlayer(player);
+            team.draftPlayer(player);
             allPlayers.addPlayer(player);
         }
+    }
+
+    // EFFECTS: Asks user if they would like to see the players they have drafted
+    public void seePlayersDrafted(FantasyTeam team) {
+        add(lblSeePlayersDrafted);
+        setBackground(lblSeePlayersDrafted);
+        lblSeePlayersDrafted.setText("Would you like to see the players you drafted?");
+
+        lblSeePlayersDrafted.setHorizontalTextPosition(JLabel.CENTER);
+        lblSeePlayersDrafted.setVerticalTextPosition(JLabel.CENTER);
+        lblSeePlayersDrafted.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+        lblSeePlayersDrafted.setForeground(Color.white);
+
+        btnYes.setBounds(200, 500, 120, 50);
+        buttonYesNo(btnYes);
+        btnNo.setBounds(500, 500, 120, 50);
+        buttonYesNo(btnNo);
+
+        //displayPlayersForUsersTeam(team);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays yes and no buttons
+    public void buttonYesNo(JButton btn) {
+        btn.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btn.setBackground(Color.LIGHT_GRAY);
+        btn.setForeground(Color.BLACK);
+        btn.setFont(new Font("Plain", Font.BOLD, 20));
+        btn.addActionListener(this);
+        btn.setFocusable(false);
+
+        lblSeePlayersDrafted.add(btn);
+        add(lblSeePlayersDrafted);
+    }
+
+    public void displayPlayersForUsersTeam(FantasyTeam team) {
+
     }
 
     // Listens for events
@@ -304,8 +355,10 @@ public class Gui extends JFrame implements ActionListener {
             getPlayers();
         } else if (e.getSource() == btnSubmitPlayersUserOne) {
             addTextFieldsToList();
-            teamOne = new FantasyTeam(textUserOne.getText());
-            createFantasyTeam();
+            //teamOne = new FantasyTeam(textUserOne.getText());
+            createFantasyTeam(teamOne);
+            remove(lblGetPlayers);
+            seePlayersDrafted(teamOne);
         }
     }
 }
