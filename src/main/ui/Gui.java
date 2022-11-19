@@ -1,5 +1,7 @@
 package ui;
 
+import model.*;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -12,39 +14,36 @@ import java.util.List;
 // 25 mins
 // GUI made with swing
 public class Gui extends JFrame implements ActionListener {
+    private JPanel panel;
     private JLabel lblStartUpScreen;
     private JLabel lblGetUsers;
     private JLabel lblEnterUserOne;
     private JLabel lblEnterUserTwo;
-    private JLabel lblClickToSubmit;
     private JLabel lblGetPlayers;
     private JLabel lblPlayerName;
-    private JLabel lblTeam;
-    private JLabel lblPosition;
-    private JLabel lblHeight;
-    private JLabel lblWeight;
+    private JLabel lblPlayerTeam;
+    private JLabel lblPlayerPosition;
+    private JLabel lblPlayerHeight;
+    private JLabel lblPlayerWeight;
 
-    private JPanel panel;
     private JTextField textUserOne;
     private JTextField textUserTwo;
-    private JTextField textName;
-    private JTextField textTeam;
-    private JTextField textPosition;
-    private JTextField textHeight;
-    private JTextField textWeight;
 
     private JButton btnPlay;
     private JButton btnSubmitUsers;
-    private JButton btnSubmitPlayers;
+    private JButton btnSubmitPlayersUserOne;
+    private JButton btnSubmitPlayersUserTwo;
 
     private ImageIcon basketballCourtImg;
     private Border border;
 
     private List<String> playerNames;
-    private List<String> teams;
-    private List<String> positions;
-    private List<String> heights;
-    private List<String> weights;
+    private List<String> playerTeams;
+    private List<String> playerPositions;
+    private List<String> playerHeights;
+    private List<String> playerWeights;
+    private FantasyTeam teamOne;
+    private AllPlayers allPlayers;
 
     // EFFECTS: Runs the GUI made with Swing
     public Gui() {
@@ -66,6 +65,8 @@ public class Gui extends JFrame implements ActionListener {
         initStartUpScreen();
         initGetUsers();
         initGetPlayers();
+        //teamOne = new FantasyTeam();
+        allPlayers = new AllPlayers();
     }
 
     // MODIFIES: this
@@ -92,25 +93,20 @@ public class Gui extends JFrame implements ActionListener {
     // EFFECTS: Instantiates objects needed for getPlayers()
     public void initGetPlayers() {
         lblPlayerName = new JLabel("Player Name: ");
-        lblTeam = new JLabel("Team: ");
-        lblPosition = new JLabel("Position: ");
-        lblHeight = new JLabel("Height: ");
-        lblWeight = new JLabel("Weight: ");
-
-        textName = new JTextField();
-        textTeam = new JTextField();
-        textPosition = new JTextField();
-        textHeight = new JTextField();
-        textWeight = new JTextField();
+        lblPlayerTeam = new JLabel("Team: ");
+        lblPlayerPosition = new JLabel("Position: ");
+        lblPlayerHeight = new JLabel("Height: ");
+        lblPlayerWeight = new JLabel("Weight: ");
 
         playerNames = new ArrayList<>();
-        teams = new ArrayList<>();
-        positions = new ArrayList<>();
-        heights = new ArrayList<>();
-        weights = new ArrayList<>();
+        playerTeams = new ArrayList<>();
+        playerPositions = new ArrayList<>();
+        playerHeights = new ArrayList<>();
+        playerWeights = new ArrayList<>();
 
         lblGetPlayers = new JLabel();
-        btnSubmitPlayers = new JButton("Submit");
+        btnSubmitPlayersUserOne = new JButton("Submit");
+        btnSubmitPlayersUserTwo = new JButton("Submit");
     }
 
     // MODIFIES: this
@@ -205,19 +201,19 @@ public class Gui extends JFrame implements ActionListener {
         addPlayerLabelHeadings();
         panel.add(lblPlayerName);
         addTextFields();
-        panel.add(lblTeam);
+        panel.add(lblPlayerTeam);
         addTextFields();
-        panel.add(lblPosition);
+        panel.add(lblPlayerPosition);
         addTextFields();
-        panel.add(lblHeight);
+        panel.add(lblPlayerHeight);
         addTextFields();
-        panel.add(lblWeight);
+        panel.add(lblPlayerWeight);
         addTextFields();
-        panel.add(btnSubmitPlayers);
+        panel.add(btnSubmitPlayersUserOne);
 
         getPlayersChangeFont();
-        btnSubmitPlayers.addActionListener(this);
-        btnSubmitPlayers.setFocusable(false);
+        btnSubmitPlayersUserOne.addActionListener(this);
+        btnSubmitPlayersUserOne.setFocusable(false);
     }
 
     // MODIFIES: this
@@ -247,24 +243,8 @@ public class Gui extends JFrame implements ActionListener {
             }
         }
 
-        btnSubmitPlayers.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
-        btnSubmitPlayers.setBackground(Color.LIGHT_GRAY);
-    }
-
-    // Listens for events
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnPlay) {
-            remove(lblStartUpScreen);
-            getUsers();
-        } else if (e.getSource() == btnSubmitUsers) {
-            System.out.println(textUserOne.getText());
-            System.out.println(textUserTwo.getText());
-            remove(lblGetUsers);
-            getPlayers();
-        } else if (e.getSource() == btnSubmitPlayers) {
-            addTextFieldsToList();
-        }
+        btnSubmitPlayersUserOne.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnSubmitPlayersUserOne.setBackground(Color.LIGHT_GRAY);
     }
 
     // EFFECTS: Loops through text fields, and adds string in text field to array list of either names,
@@ -278,20 +258,54 @@ public class Gui extends JFrame implements ActionListener {
                     playerNames.add(((JTextField) c).getText());
                     System.out.println("NAME: " + ((JTextField)c).getText());
                 } else if (i <= 10) { // next 5 text fields in the panel are for team names
-                    teams.add(((JTextField) c).getText());
+                    playerTeams.add(((JTextField) c).getText());
                     System.out.println("TEAM: " + ((JTextField)c).getText());
                 } else if (i <= 15) {
-                    positions.add(((JTextField) c).getText());
+                    playerPositions.add(((JTextField) c).getText());
                     System.out.println("POSITION: " + ((JTextField)c).getText());
                 } else if (i <= 20) {
-                    heights.add(((JTextField) c).getText());
+                    playerHeights.add(((JTextField) c).getText());
                     System.out.println("HEIGHT: " + ((JTextField)c).getText());
                 } else if (i <= 25) {
-                    weights.add(((JTextField) c).getText());
+                    playerWeights.add(((JTextField) c).getText());
                     System.out.println("WEIGHT: " + ((JTextField)c).getText());
                 }
                 ++i;
             }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Creates players and adds players to users fantasy team
+    public void createFantasyTeam() {
+        Player player;
+        for (int i = 0; i <= 4; ++i) {
+            player = new Player();
+            player.setName(playerNames.get(i));
+            player.setTeam(playerTeams.get(i));
+            player.setPosition(playerPositions.get(i));
+            player.setHeight(Double.parseDouble(playerHeights.get(i)));
+            player.setWeight(Double.parseDouble(playerWeights.get(i)));
+            teamOne.draftPlayer(player);
+            allPlayers.addPlayer(player);
+        }
+    }
+
+    // Listens for events
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnPlay) {
+            remove(lblStartUpScreen);
+            getUsers();
+        } else if (e.getSource() == btnSubmitUsers) {
+            System.out.println(textUserOne.getText());
+            System.out.println(textUserTwo.getText());
+            remove(lblGetUsers);
+            getPlayers();
+        } else if (e.getSource() == btnSubmitPlayersUserOne) {
+            addTextFieldsToList();
+            teamOne = new FantasyTeam(textUserOne.getText());
+            createFantasyTeam();
         }
     }
 }
