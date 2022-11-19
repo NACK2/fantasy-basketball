@@ -25,7 +25,8 @@ public class Gui extends JFrame implements ActionListener {
     private JLabel lblPlayerPosition;
     private JLabel lblPlayerHeight;
     private JLabel lblPlayerWeight;
-    private JLabel lblSeePlayersDrafted;
+    private JLabel lblAskSeePlayersDrafted;
+    private JLabel lblDisplayPlayers;
 
     private JTextField textUserOne;
     private JTextField textUserTwo;
@@ -45,8 +46,11 @@ public class Gui extends JFrame implements ActionListener {
     private List<String> playerPositions;
     private List<String> playerHeights;
     private List<String> playerWeights;
+
     private FantasyTeam teamOne;
     private FantasyTeam teamTwo;
+    private FantasyTeam displayTeam;
+
     private AllPlayers allPlayers;
 
     // EFFECTS: Runs the GUI made with Swing
@@ -114,9 +118,10 @@ public class Gui extends JFrame implements ActionListener {
     }
 
     public void initSeePlayersDrafted() {
-        lblSeePlayersDrafted = new JLabel();
+        lblAskSeePlayersDrafted = new JLabel();
         btnYes = new JButton("Yes");
         btnNo = new JButton("No");
+        lblDisplayPlayers = new JLabel();
     }
 
     // MODIFIES: this
@@ -162,6 +167,19 @@ public class Gui extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
+    // EFFECTS: Changes font and colour for all labels in JPanel
+    public void changeFont() {
+        // for each loop loops through each component within panel, if component is a JLabel then
+        // change the JLabel's font and colour
+        for (Component c : panel.getComponents()) {
+            if (c instanceof JLabel) {
+                c.setFont(new Font("Plain", Font.BOLD, 15));
+                c.setForeground(Color.WHITE);
+            }
+        }
+    }
+
+    // MODIFIES: this
     // EFFECTS: Asks user to enter two user names
     public void getUsers() {
         add(lblGetUsers);
@@ -175,31 +193,18 @@ public class Gui extends JFrame implements ActionListener {
         panel.add(lblEnterUserTwo);
         panel.add(textUserTwo);
         panel.add(btnSubmitUsers);
-
-        getUsersChangeFont();
         panel.setOpaque(false); // makes panel have transparent background
-        btnSubmitUsers.addActionListener(this);
-        btnSubmitUsers.setFocusable(false);
-        teamOne = new FantasyTeam(textUserOne.getText());
-        teamTwo = new FantasyTeam(textUserTwo.getText());
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Changes font and colour for all labels and buttons in getUser() method
-    public void getUsersChangeFont() {
-        // for each loop loops through each component within panel, if component is a JLabel then
-        // change the JLabel's font and colour
-        for (Component c : panel.getComponents()) {
-            if (c instanceof JLabel) {
-                c.setFont(new Font("Plain", Font.BOLD, 15));
-                c.setForeground(Color.WHITE);
-            }
-        }
+        changeFont();
 
         btnSubmitUsers.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
         btnSubmitUsers.setBackground(Color.LIGHT_GRAY);
         btnSubmitUsers.setForeground(Color.BLACK);
         btnSubmitUsers.setFont(new Font("Plain", Font.BOLD, 15));
+
+        btnSubmitUsers.addActionListener(this);
+        btnSubmitUsers.setFocusable(false);
+        teamOne = new FantasyTeam(textUserOne.getText());
+        teamTwo = new FantasyTeam(textUserTwo.getText());
     }
 
     // TO DO: FIX THIS
@@ -224,10 +229,12 @@ public class Gui extends JFrame implements ActionListener {
         addTextFields();
         panel.add(btnSubmitPlayersUserOne);
 
+        btnSubmitPlayersUserOne.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnSubmitPlayersUserOne.setBackground(Color.LIGHT_GRAY);
         btnSubmitPlayersUserOne.addActionListener(this);
         btnSubmitPlayersUserOne.setFocusable(false);
 
-        getPlayersChangeFont();
+        changeFont();
     }
 
     // MODIFIES: this
@@ -245,20 +252,6 @@ public class Gui extends JFrame implements ActionListener {
         for (int i = 1; i <= 5; ++i) {
             panel.add(new JTextField());
         }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Changes font and colour for all labels and buttons in getPlayersUserOne() method
-    public void getPlayersChangeFont() {
-        for (Component c : panel.getComponents()) {
-            if (c instanceof JLabel) {
-                c.setFont(new Font("Plain", Font.BOLD, 15));
-                c.setForeground(Color.WHITE);
-            }
-        }
-
-        btnSubmitPlayersUserOne.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
-        btnSubmitPlayersUserOne.setBackground(Color.LIGHT_GRAY);
     }
 
     // EFFECTS: Loops through text fields, and adds string in text field to array list of either names,
@@ -305,23 +298,25 @@ public class Gui extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: Asks user if they would like to see the players they have drafted
-    public void seePlayersDrafted(FantasyTeam team) {
-        add(lblSeePlayersDrafted);
-        setBackground(lblSeePlayersDrafted);
-        lblSeePlayersDrafted.setText("Would you like to see the players you drafted?");
+    public void askSeePlayersDrafted(FantasyTeam team) {
+        displayTeam = team;
+        add(lblAskSeePlayersDrafted);
+        setBackground(lblAskSeePlayersDrafted);
+        lblAskSeePlayersDrafted.setText("Would you like to see the players you drafted?");
 
-        lblSeePlayersDrafted.setHorizontalTextPosition(JLabel.CENTER);
-        lblSeePlayersDrafted.setVerticalTextPosition(JLabel.CENTER);
-        lblSeePlayersDrafted.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
-        lblSeePlayersDrafted.setForeground(Color.white);
+        lblAskSeePlayersDrafted.setHorizontalTextPosition(JLabel.CENTER);
+        lblAskSeePlayersDrafted.setVerticalTextPosition(JLabel.CENTER);
+        lblAskSeePlayersDrafted.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+        lblAskSeePlayersDrafted.setForeground(Color.white);
 
         btnYes.setBounds(200, 500, 120, 50);
+        btnYes.addActionListener(this);
         buttonYesNo(btnYes);
         btnNo.setBounds(500, 500, 120, 50);
+        btnNo.addActionListener(this);
         buttonYesNo(btnNo);
-
-        //displayPlayersForUsersTeam(team);
     }
 
     // MODIFIES: this
@@ -331,15 +326,50 @@ public class Gui extends JFrame implements ActionListener {
         btn.setBackground(Color.LIGHT_GRAY);
         btn.setForeground(Color.BLACK);
         btn.setFont(new Font("Plain", Font.BOLD, 20));
-        btn.addActionListener(this);
         btn.setFocusable(false);
 
-        lblSeePlayersDrafted.add(btn);
-        add(lblSeePlayersDrafted);
+        lblAskSeePlayersDrafted.add(btn);
+        add(lblAskSeePlayersDrafted);
     }
 
-    public void displayPlayersForUsersTeam(FantasyTeam team) {
+    // MODIFIES: this
+    // EFFECTS: Displays the players on the users team
+    public void displayPlayersForUsersTeam() {
+        add(lblDisplayPlayers);
+        setBackground(lblDisplayPlayers);
 
+        panel.removeAll(); // removing all the content previously on panel
+        lblDisplayPlayers.setLayout(new GridBagLayout());
+        lblDisplayPlayers.add(panel, new GridBagConstraints());
+        panel.setLayout(new GridLayout(6, 6, 30, 2));
+        addPlayersToPanel();
+        changeFont();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Adds each player to the JPanel
+    public void addPlayersToPanel() {
+        addPlayerLabelHeadings();
+        panel.add(lblPlayerName);
+        for (Player p : displayTeam.getFantasyTeam()) {
+            panel.add(new JLabel(p.getName()));
+        }
+        panel.add(lblPlayerTeam);
+        for (Player p : displayTeam.getFantasyTeam()) {
+            panel.add(new JLabel(p.getTeam()));
+        }
+        panel.add(lblPlayerPosition);
+        for (Player p : displayTeam.getFantasyTeam()) {
+            panel.add(new JLabel(p.getPosition()));
+        }
+        panel.add(lblPlayerHeight);
+        for (Player p : displayTeam.getFantasyTeam()) {
+            panel.add(new JLabel(Double.toString(p.getHeight())));
+        }
+        panel.add(lblPlayerWeight);
+        for (Player p : displayTeam.getFantasyTeam()) {
+            panel.add(new JLabel(Double.toString(p.getWeight())));
+        }
     }
 
     // Listens for events
@@ -358,7 +388,12 @@ public class Gui extends JFrame implements ActionListener {
             //teamOne = new FantasyTeam(textUserOne.getText());
             createFantasyTeam(teamOne);
             remove(lblGetPlayers);
-            seePlayersDrafted(teamOne);
+            askSeePlayersDrafted(teamOne);
+        } else if (e.getSource() == btnYes) {
+            remove(lblAskSeePlayersDrafted);
+            displayPlayersForUsersTeam();
+        } else if (e.getSource() == btnNo) {
+            // pass
         }
     }
 }
