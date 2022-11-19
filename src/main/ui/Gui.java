@@ -13,12 +13,12 @@ import java.util.List;
 // GUI made with swing
 public class Gui extends JFrame implements ActionListener {
     private JLabel lblStartUpScreen;
-    private JLabel lblPlayBtnClicked;
+    private JLabel lblGetUsers;
     private JLabel lblEnterUserOne;
     private JLabel lblEnterUserTwo;
     private JLabel lblClickToSubmit;
     private JLabel lblGetPlayers;
-    private JLabel lblName;
+    private JLabel lblPlayerName;
     private JLabel lblTeam;
     private JLabel lblPosition;
     private JLabel lblHeight;
@@ -34,16 +34,17 @@ public class Gui extends JFrame implements ActionListener {
     private JTextField textWeight;
 
     private JButton btnPlay;
-    private JButton btnSubmit;
+    private JButton btnSubmitUsers;
+    private JButton btnSubmitPlayers;
 
     private ImageIcon basketballCourtImg;
     private Border border;
 
     private List<String> playerNames;
-    private List<String> playerTeams;
-    private List<String> playerPositions;
-    private List<String> playerHeights;
-    private List<String> playerWeights;
+    private List<String> teams;
+    private List<String> positions;
+    private List<String> heights;
+    private List<String> weights;
 
     // EFFECTS: Runs the GUI made with Swing
     public Gui() {
@@ -53,34 +54,44 @@ public class Gui extends JFrame implements ActionListener {
         getContentPane().setBackground(Color.BLACK); // setting background colour to black
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        init();
+        init(); // initializes and instantiates all objets needed
         startUpScreen(); // Start up screen
         startUpScreenButtons(); // Buttons displayed on start up screen
 
         setVisible(true);
     }
 
-    // MODIFIES: this
     // EFFECTS: Instantiates all the objects needed
     public void init() {
+        initStartUpScreen();
+        initGetUsers();
+        initGetPlayers();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Instantiates objects needed for start up screen
+    public void initStartUpScreen() {
         lblStartUpScreen = new JLabel();
         basketballCourtImg = new ImageIcon("./data/EmptyBasketballCourt.jpg");
         btnPlay = new JButton("Play");
-        lblPlayBtnClicked = new JLabel();
+        lblGetUsers = new JLabel();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Instantiates objects needed for getUsers()
+    public void initGetUsers() {
         panel = new JPanel();
         textUserOne = new JTextField();
         textUserTwo = new JTextField();
         lblEnterUserOne = new JLabel("Enter user 1's username: ");
         lblEnterUserTwo = new JLabel("Enter user 2's username: ");
-        lblClickToSubmit = new JLabel("Click the button to submit!");
-        btnSubmit = new JButton("Submit");
-        lblGetPlayers = new JLabel();
+        btnSubmitUsers = new JButton("Submit");
     }
 
     // MODIFIES: this
-    // EFFECTS: Instantiates all the objects needed for a player creation
-    public void initPlayer() {
-        lblName = new JLabel("Name: ");
+    // EFFECTS: Instantiates objects needed for getPlayers()
+    public void initGetPlayers() {
+        lblPlayerName = new JLabel("Player Name: ");
         lblTeam = new JLabel("Team: ");
         lblPosition = new JLabel("Position: ");
         lblHeight = new JLabel("Height: ");
@@ -93,10 +104,13 @@ public class Gui extends JFrame implements ActionListener {
         textWeight = new JTextField();
 
         playerNames = new ArrayList<>();
-        playerTeams = new ArrayList<>();
-        playerPositions = new ArrayList<>();
-        playerHeights = new ArrayList<>();
-        playerWeights = new ArrayList<>();
+        teams = new ArrayList<>();
+        positions = new ArrayList<>();
+        heights = new ArrayList<>();
+        weights = new ArrayList<>();
+
+        lblGetPlayers = new JLabel();
+        btnSubmitPlayers = new JButton("Submit");
     }
 
     // MODIFIES: this
@@ -111,13 +125,12 @@ public class Gui extends JFrame implements ActionListener {
     // EFFECTS: Displays start up screen
     public void startUpScreen() {
         add(lblStartUpScreen);
-        setTitle("Fantasy Basketball App by Nicholas Kang");
-        lblStartUpScreen.setHorizontalTextPosition(JLabel.CENTER);
-        lblStartUpScreen.setVerticalTextPosition(JLabel.CENTER);
-
         setBackground(lblStartUpScreen);
+        setTitle("Fantasy Basketball App by Nicholas Kang");
 
         lblStartUpScreen.setText("Welcome to Fantasy Basketball!"); // Label displays this text
+        lblStartUpScreen.setHorizontalTextPosition(JLabel.CENTER);
+        lblStartUpScreen.setVerticalTextPosition(JLabel.CENTER);
         lblStartUpScreen.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
         lblStartUpScreen.setForeground(Color.white);
     }
@@ -142,74 +155,143 @@ public class Gui extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: Displays new screen (consequence of play button being clicked)
-    public void playBtnClicked() {
-        add(lblPlayBtnClicked);
-        lblPlayBtnClicked.setLayout(new GridBagLayout());
-        setBackground(lblPlayBtnClicked);
-
-        getUsers();
-    }
-
-    // MODIFIES: this
     // EFFECTS: Asks user to enter two user names
     public void getUsers() {
-        lblPlayBtnClicked.add(panel, new GridBagConstraints());
-        panel.setLayout(new GridLayout(3, 2));
-
-        lblEnterUserOne.setFont(new Font("Plain", Font.BOLD, 15));
-        lblEnterUserOne.setForeground(Color.WHITE);
-        lblEnterUserTwo.setFont(new Font("Plain", Font.BOLD, 15));
-        lblEnterUserTwo.setForeground(Color.WHITE);
-        lblClickToSubmit.setFont(new Font("Plain", Font.BOLD, 15));
-        lblClickToSubmit.setForeground(Color.WHITE);
+        add(lblGetUsers);
+        setBackground(lblGetUsers);
+        lblGetUsers.setLayout(new GridBagLayout());
+        lblGetUsers.add(panel, new GridBagConstraints());
+        panel.setLayout(new GridLayout(3, 2, 20, 2));
 
         panel.add(lblEnterUserOne);
         panel.add(textUserOne);
         panel.add(lblEnterUserTwo);
         panel.add(textUserTwo);
-        panel.add(lblClickToSubmit);
-        panel.add(btnSubmit);
+        panel.add(btnSubmitUsers);
 
-        btnSubmit.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
-        btnSubmit.setBackground(Color.LIGHT_GRAY);
-        btnSubmit.setForeground(Color.BLACK);
-        btnSubmit.setFont(new Font("Plain", Font.BOLD, 15));
+        getUsersChangeFont();
         panel.setOpaque(false); // makes panel have transparent background
-        btnSubmit.addActionListener(this);
-        btnSubmit.setFocusable(false);
+        btnSubmitUsers.addActionListener(this);
+        btnSubmitUsers.setFocusable(false);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Changes font and colour for all labels and buttons in getUser() method
+    public void getUsersChangeFont() {
+        // for each loop loops through each component within panel, if component is a JLabel then
+        // change the JLabel's font and colour
+        for (Component c : panel.getComponents()) {
+            if (c instanceof JLabel) {
+                c.setFont(new Font("Plain", Font.BOLD, 15));
+                c.setForeground(Color.WHITE);
+            }
+        }
+
+        btnSubmitUsers.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnSubmitUsers.setBackground(Color.LIGHT_GRAY);
+        btnSubmitUsers.setForeground(Color.BLACK);
+        btnSubmitUsers.setFont(new Font("Plain", Font.BOLD, 15));
     }
 
     // TO DO: FIX THIS
-    public void getPlayersUserOne() {
+    public void getPlayers() {
         add(lblGetPlayers);
-        lblGetPlayers.setLayout(new GridBagLayout());
         setBackground(lblGetPlayers);
+        lblGetPlayers.setLayout(new GridBagLayout());
         lblGetPlayers.add(panel, new GridBagConstraints());
-        panel.setLayout(new GridLayout());
-        panel.add(lblName);
-        panel.add(textName);
+        panel.setLayout(new GridLayout(7, 6, 30, 2));
+        panel.removeAll(); // removing all the content previously on panel
+
+        addPlayerLabelHeadings();
+        panel.add(lblPlayerName);
+        addTextFields();
         panel.add(lblTeam);
-        panel.add(textTeam);
+        addTextFields();
         panel.add(lblPosition);
-        panel.add(textPosition);
+        addTextFields();
         panel.add(lblHeight);
-        panel.add(textHeight);
+        addTextFields();
         panel.add(lblWeight);
-        panel.add(textWeight);
+        addTextFields();
+        panel.add(btnSubmitPlayers);
+
+        getPlayersChangeFont();
+        btnSubmitPlayers.addActionListener(this);
+        btnSubmitPlayers.setFocusable(false);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Adds "Player 1", "Player 2", etc. headings on top of corresponding text fields
+    public void addPlayerLabelHeadings() {
+        panel.add(new JLabel()); // for empty label
+        for (int i = 1; i <= 5; ++i) {
+            panel.add(new JLabel("Player " + i));
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Adds 5 text fields
+    public void addTextFields() {
+        for (int i = 1; i <= 5; ++i) {
+            panel.add(new JTextField());
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Changes font and colour for all labels and buttons in getPlayersUserOne() method
+    public void getPlayersChangeFont() {
+        for (Component c : panel.getComponents()) {
+            if (c instanceof JLabel) {
+                c.setFont(new Font("Plain", Font.BOLD, 15));
+                c.setForeground(Color.WHITE);
+            }
+        }
+
+        btnSubmitPlayers.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnSubmitPlayers.setBackground(Color.LIGHT_GRAY);
     }
 
     // Listens for events
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnPlay) {
-            lblStartUpScreen.setVisible(false);
-            playBtnClicked();
-        } else if (e.getSource() == btnSubmit) {
+            remove(lblStartUpScreen);
+            getUsers();
+        } else if (e.getSource() == btnSubmitUsers) {
             System.out.println(textUserOne.getText());
             System.out.println(textUserTwo.getText());
-            lblPlayBtnClicked.setVisible(false);
-            getPlayersUserOne();
+            remove(lblGetUsers);
+            getPlayers();
+        } else if (e.getSource() == btnSubmitPlayers) {
+            addTextFieldsToList();
+        }
+    }
+
+    // EFFECTS: Loops through text fields, and adds string in text field to array list of either names,
+    // teams, positions, heights, or weights
+    public void addTextFieldsToList() {
+        // Loops through the panel, if the object within panel is a JTextField, then print text out
+        int i = 1;
+        for (Component c : panel.getComponents()) {
+            if (c instanceof JTextField) {
+                if (i >= 1 && i <= 5) { // first 5 text fields in the panel are for player names
+                    playerNames.add(((JTextField) c).getText());
+                    System.out.println("NAME: " + ((JTextField)c).getText());
+                } else if (i <= 10) { // next 5 text fields in the panel are for team names
+                    teams.add(((JTextField) c).getText());
+                    System.out.println("TEAM: " + ((JTextField)c).getText());
+                } else if (i <= 15) {
+                    positions.add(((JTextField) c).getText());
+                    System.out.println("POSITION: " + ((JTextField)c).getText());
+                } else if (i <= 20) {
+                    heights.add(((JTextField) c).getText());
+                    System.out.println("HEIGHT: " + ((JTextField)c).getText());
+                } else if (i <= 25) {
+                    weights.add(((JTextField) c).getText());
+                    System.out.println("WEIGHT: " + ((JTextField)c).getText());
+                }
+                ++i;
+            }
         }
     }
 }
