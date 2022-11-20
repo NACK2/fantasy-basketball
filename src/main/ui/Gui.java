@@ -36,7 +36,8 @@ public class Gui extends JFrame implements ActionListener {
     private JButton btnSubmitPlayersUserOne;
     private JButton btnSubmitPlayersUserTwo;
     private JButton btnYes;
-    private JButton btnNo;
+    private JButton btnNoUserOne;
+    private JButton btnNoUserTwo;
 
     private ImageIcon basketballCourtImg;
     private Border border;
@@ -120,7 +121,8 @@ public class Gui extends JFrame implements ActionListener {
     public void initSeePlayersDrafted() {
         lblAskSeePlayersDrafted = new JLabel();
         btnYes = new JButton("Yes");
-        btnNo = new JButton("No");
+        btnNoUserOne = new JButton("No 1");
+        btnNoUserTwo = new JButton("No 2");
         lblDisplayPlayers = new JLabel();
     }
 
@@ -203,12 +205,10 @@ public class Gui extends JFrame implements ActionListener {
 
         btnSubmitUsers.addActionListener(this);
         btnSubmitUsers.setFocusable(false);
-        teamOne = new FantasyTeam(textUserOne.getText());
-        teamTwo = new FantasyTeam(textUserTwo.getText());
     }
 
     // TO DO: FIX THIS
-    public void getPlayers() {
+    public void getPlayers(JButton btnSubmit) {
         add(lblGetPlayers);
         setBackground(lblGetPlayers);
         lblGetPlayers.setLayout(new GridBagLayout());
@@ -227,12 +227,12 @@ public class Gui extends JFrame implements ActionListener {
         addTextFields();
         panel.add(lblPlayerWeight);
         addTextFields();
-        panel.add(btnSubmitPlayersUserOne);
+        panel.add(btnSubmit);
 
-        btnSubmitPlayersUserOne.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
-        btnSubmitPlayersUserOne.setBackground(Color.LIGHT_GRAY);
-        btnSubmitPlayersUserOne.addActionListener(this);
-        btnSubmitPlayersUserOne.setFocusable(false);
+        btnSubmit.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnSubmit.setBackground(Color.LIGHT_GRAY);
+        btnSubmit.addActionListener(this);
+        btnSubmit.setFocusable(false);
 
         changeFont();
     }
@@ -314,9 +314,18 @@ public class Gui extends JFrame implements ActionListener {
         btnYes.setBounds(200, 500, 120, 50);
         btnYes.addActionListener(this);
         buttonYesNo(btnYes);
-        btnNo.setBounds(500, 500, 120, 50);
-        btnNo.addActionListener(this);
-        buttonYesNo(btnNo);
+
+        if (displayTeam == teamOne) {
+            System.out.println("1");
+            btnNoUserOne.setBounds(500, 500, 120, 50);
+            btnNoUserOne.addActionListener(this);
+            buttonYesNo(btnNoUserOne);
+        } else {
+            System.out.println("2");
+            btnNoUserTwo.setBounds(500, 500, 120, 50);
+            btnNoUserTwo.addActionListener(this);
+            buttonYesNo(btnNoUserTwo);
+        }
     }
 
     // MODIFIES: this
@@ -379,21 +388,31 @@ public class Gui extends JFrame implements ActionListener {
             remove(lblStartUpScreen);
             getUsers();
         } else if (e.getSource() == btnSubmitUsers) {
-            System.out.println(textUserOne.getText());
-            System.out.println(textUserTwo.getText());
+            teamOne = new FantasyTeam(textUserOne.getText());
+            teamTwo = new FantasyTeam(textUserTwo.getText());
+            System.out.println(teamOne.getUser() + ", " + teamTwo.getUser());
             remove(lblGetUsers);
-            getPlayers();
+            getPlayers(btnSubmitPlayersUserOne);
         } else if (e.getSource() == btnSubmitPlayersUserOne) {
             addTextFieldsToList();
-            //teamOne = new FantasyTeam(textUserOne.getText());
             createFantasyTeam(teamOne);
             remove(lblGetPlayers);
             askSeePlayersDrafted(teamOne);
         } else if (e.getSource() == btnYes) {
             remove(lblAskSeePlayersDrafted);
             displayPlayersForUsersTeam();
-        } else if (e.getSource() == btnNo) {
-            // pass
+            // add a next button to go to getPlayers(btnSubmitPlayersUserTwo);
+        } else if (e.getSource() == btnNoUserOne) {
+            remove(lblAskSeePlayersDrafted);
+            getPlayers(btnSubmitPlayersUserTwo);
+        } else if (e.getSource() == btnSubmitPlayersUserTwo) {
+            addTextFieldsToList();
+            createFantasyTeam(teamTwo);
+            remove(lblGetPlayers);
+            lblAskSeePlayersDrafted.remove(btnNoUserOne);
+            askSeePlayersDrafted(teamTwo);
+        } else if (e.getSource() == btnNoUserTwo) {
+            remove(lblAskSeePlayersDrafted);
         }
     }
 }
