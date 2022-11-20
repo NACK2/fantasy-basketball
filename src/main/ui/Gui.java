@@ -38,6 +38,7 @@ public class Gui extends JFrame implements ActionListener {
     private JButton btnYes;
     private JButton btnNoUserOne;
     private JButton btnNoUserTwo;
+    private JButton btnNext;
 
     private ImageIcon basketballCourtImg;
     private Border border;
@@ -59,12 +60,12 @@ public class Gui extends JFrame implements ActionListener {
         setResizable(false);
         setSize(835, 655);
         setLayout(new FlowLayout());
+        setTitle("Fantasy Basketball App by Nicholas Kang");
         getContentPane().setBackground(Color.BLACK); // setting background colour to black
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         init(); // initializes and instantiates all objets needed
         startUpScreen(); // Start up screen
-        startUpScreenButtons(); // Buttons displayed on start up screen
 
         setVisible(true);
     }
@@ -118,12 +119,15 @@ public class Gui extends JFrame implements ActionListener {
         allPlayers = new AllPlayers();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Instantiates objects needed for seeing drafted players
     public void initSeePlayersDrafted() {
         lblAskSeePlayersDrafted = new JLabel();
         btnYes = new JButton("Yes");
         btnNoUserOne = new JButton("No 1");
         btnNoUserTwo = new JButton("No 2");
         lblDisplayPlayers = new JLabel();
+        btnNext = new JButton();
     }
 
     // MODIFIES: this
@@ -139,13 +143,14 @@ public class Gui extends JFrame implements ActionListener {
     public void startUpScreen() {
         add(lblStartUpScreen);
         setBackground(lblStartUpScreen);
-        setTitle("Fantasy Basketball App by Nicholas Kang");
 
         lblStartUpScreen.setText("Welcome to Fantasy Basketball!"); // Label displays this text
         lblStartUpScreen.setHorizontalTextPosition(JLabel.CENTER);
         lblStartUpScreen.setVerticalTextPosition(JLabel.CENTER);
         lblStartUpScreen.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
         lblStartUpScreen.setForeground(Color.white);
+
+        startUpScreenButtons();
     }
 
     // EFFECTS: Displays all buttons on start up screen
@@ -163,9 +168,7 @@ public class Gui extends JFrame implements ActionListener {
         btnPlay.setFont(new Font("Plain", Font.BOLD, 20));
         btnPlay.addActionListener(this);
         btnPlay.setFocusable(false);
-
         lblStartUpScreen.add(btnPlay);
-        add(lblStartUpScreen);
     }
 
     // MODIFIES: this
@@ -353,6 +356,7 @@ public class Gui extends JFrame implements ActionListener {
         panel.setLayout(new GridLayout(6, 6, 30, 2));
         addPlayersToPanel();
         changeFont();
+        buttonNext();
     }
 
     // MODIFIES: this
@@ -381,6 +385,22 @@ public class Gui extends JFrame implements ActionListener {
         }
     }
 
+    // FIX THIS
+    public void buttonNext() {
+        btnNext.setBounds(300, 500, 120, 50);
+        btnNext.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnNext.setBackground(Color.LIGHT_GRAY);
+        btnNext.setForeground(Color.BLACK);
+        btnNext.setFont(new Font("Plain", Font.BOLD, 20));
+        btnNext.setFocusable(false);
+
+        btnNext.addActionListener(this);
+
+        lblDisplayPlayers.add(btnNext);
+        add(lblDisplayPlayers);
+    }
+
+    // SHORTEN THIS
     // Listens for events
     @Override
     public void actionPerformed(ActionEvent e) {
