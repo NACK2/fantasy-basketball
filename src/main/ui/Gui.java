@@ -1,19 +1,22 @@
 package ui;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 // https://www.youtube.com/watch?v=Kmgo00avvEw
-// 25 mins
 // GUI made with swing
 public class Gui extends JFrame implements ActionListener {
+    private static final String JSON_STORE = "./data/allFantasyTeamsFile.json";
     private JPanel panel;
     private JLabel lblStartUpScreen;
     private JLabel lblGetUsers;
@@ -26,19 +29,25 @@ public class Gui extends JFrame implements ActionListener {
     private JLabel lblPlayerHeight;
     private JLabel lblPlayerWeight;
     private JLabel lblAskSeePlayersDrafted;
-    private JLabel lblDisplayPlayers;
+    private JLabel lblDisplayPlayersForUsersTeam;
+    private JLabel lblDisplayPlayersFromFile;
+    private JLabel lblAskUsersSaveToFile;
 
     private JTextField textUserOne;
     private JTextField textUserTwo;
 
     private JButton btnPlay;
+    private JButton btnQuit;
+    private JButton btnLoad;
     private JButton btnSubmitUsers;
     private JButton btnSubmitPlayersUserOne;
     private JButton btnSubmitPlayersUserTwo;
     private JButton btnYes;
     private JButton btnNoUserOne;
     private JButton btnNoUserTwo;
-    private JButton btnNext;
+    private JButton btnNextOne;
+    private JButton btnNextTwo;
+    private boolean nextBtnPassed = false; // boolean to check if btnNextOne has already been passed
 
     private ImageIcon basketballCourtImg;
     private Border border;
@@ -52,8 +61,11 @@ public class Gui extends JFrame implements ActionListener {
     private FantasyTeam teamOne;
     private FantasyTeam teamTwo;
     private FantasyTeam displayTeam;
-
+    private AllFantasyTeams allFantasyTeams;
     private AllPlayers allPlayers;
+
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: Runs the GUI made with Swing
     public Gui() {
@@ -76,6 +88,7 @@ public class Gui extends JFrame implements ActionListener {
         initGetUsers();
         initGetPlayers();
         initSeePlayersDrafted();
+        initFile();
     }
 
     // MODIFIES: this
@@ -84,13 +97,16 @@ public class Gui extends JFrame implements ActionListener {
         lblStartUpScreen = new JLabel();
         basketballCourtImg = new ImageIcon("./data/EmptyBasketballCourt.jpg");
         btnPlay = new JButton("Play");
+        btnQuit = new JButton("Quit");
+        btnLoad = new JButton("Load");
         lblGetUsers = new JLabel();
     }
 
     // MODIFIES: this
-    // EFFECTS: Instantiates objects needed for getUsers()
+    // EFFECTS: Instantiates objects needed for getting users (getUsers())
     public void initGetUsers() {
         panel = new JPanel();
+        panel.setOpaque(false); // makes panel have transparent background
         textUserOne = new JTextField();
         textUserTwo = new JTextField();
         lblEnterUserOne = new JLabel("Enter user 1's username: ");
@@ -99,7 +115,7 @@ public class Gui extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: Instantiates objects needed for getPlayers()
+    // EFFECTS: Instantiates objects needed for getting players (getPlayers())
     public void initGetPlayers() {
         lblPlayerName = new JLabel("Player Name: ");
         lblPlayerTeam = new JLabel("Team: ");
@@ -107,27 +123,42 @@ public class Gui extends JFrame implements ActionListener {
         lblPlayerHeight = new JLabel("Height: ");
         lblPlayerWeight = new JLabel("Weight: ");
 
-        playerNames = new ArrayList<>();
-        playerTeams = new ArrayList<>();
-        playerPositions = new ArrayList<>();
-        playerHeights = new ArrayList<>();
-        playerWeights = new ArrayList<>();
-
         lblGetPlayers = new JLabel();
         btnSubmitPlayersUserOne = new JButton("Submit");
         btnSubmitPlayersUserTwo = new JButton("Submit");
         allPlayers = new AllPlayers();
+        allFantasyTeams = new AllFantasyTeams();
     }
 
     // MODIFIES: this
     // EFFECTS: Instantiates objects needed for seeing drafted players
     public void initSeePlayersDrafted() {
-        lblAskSeePlayersDrafted = new JLabel();
+        lblAskSeePlayersDrafted = new JLabel("Would you like to see the players you drafted?");
         btnYes = new JButton("Yes");
         btnNoUserOne = new JButton("No 1");
         btnNoUserTwo = new JButton("No 2");
-        lblDisplayPlayers = new JLabel();
-        btnNext = new JButton();
+        lblDisplayPlayersForUsersTeam = new JLabel();
+        btnNextOne = new JButton("Next");
+        btnNextTwo = new JButton("Next");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Instantiates array lists for player attributes
+    public void initPlayerInfos() {
+        playerNames = new ArrayList<>();
+        playerTeams = new ArrayList<>();
+        playerPositions = new ArrayList<>();
+        playerHeights = new ArrayList<>();
+        playerWeights = new ArrayList<>();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Instantiates objects related to the json file reading / saving / writing
+    public void initFile() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        lblDisplayPlayersFromFile = new JLabel();
+        lblAskUsersSaveToFile = new JLabel("Would you like to save all players to file?");
     }
 
     // MODIFIES: this
@@ -156,19 +187,43 @@ public class Gui extends JFrame implements ActionListener {
     // EFFECTS: Displays all buttons on start up screen
     public void startUpScreenButtons() {
         buttonPlay();
+        buttonQuit();
+        buttonLoad();
     }
 
     // MODIFIES: this
     // EFFECTS: Displays play button
     public void buttonPlay() {
         btnPlay.setBounds(350, 500, 120, 50);
-        btnPlay.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
-        btnPlay.setBackground(Color.LIGHT_GRAY);
-        btnPlay.setForeground(Color.BLACK);
-        btnPlay.setFont(new Font("Plain", Font.BOLD, 20));
-        btnPlay.addActionListener(this);
-        btnPlay.setFocusable(false);
+        buttonSettings(btnPlay);
         lblStartUpScreen.add(btnPlay);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays quit button
+    public void buttonQuit() {
+        btnQuit.setBounds(150, 500, 120, 50);
+        buttonSettings(btnQuit);
+        lblStartUpScreen.add(btnQuit);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays load button
+    public void buttonLoad() {
+        btnLoad.setBounds(550, 500, 120, 50);
+        buttonSettings(btnLoad);
+        lblStartUpScreen.add(btnLoad);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets button settings
+    public void buttonSettings(JButton btn) {
+        btn.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btn.setBackground(Color.LIGHT_GRAY);
+        btn.setForeground(Color.BLACK);
+        btn.setFont(new Font("Plain", Font.BOLD, 20));
+        btn.addActionListener(this);
+        btn.setFocusable(false);
     }
 
     // MODIFIES: this
@@ -198,7 +253,6 @@ public class Gui extends JFrame implements ActionListener {
         panel.add(lblEnterUserTwo);
         panel.add(textUserTwo);
         panel.add(btnSubmitUsers);
-        panel.setOpaque(false); // makes panel have transparent background
         changeFont();
 
         btnSubmitUsers.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
@@ -210,7 +264,8 @@ public class Gui extends JFrame implements ActionListener {
         btnSubmitUsers.setFocusable(false);
     }
 
-    // TO DO: FIX THIS
+    // MODIFIES: this
+    // EFFECTS: Asks user to enter player information
     public void getPlayers(JButton btnSubmit) {
         add(lblGetPlayers);
         setBackground(lblGetPlayers);
@@ -260,6 +315,7 @@ public class Gui extends JFrame implements ActionListener {
     // EFFECTS: Loops through text fields, and adds string in text field to array list of either names,
     // teams, positions, heights, or weights
     public void addTextFieldsToList() {
+        initPlayerInfos();
         // Loops through the panel, if the object within panel is a JTextField, then print text out
         int i = 1;
         for (Component c : panel.getComponents()) {
@@ -307,7 +363,6 @@ public class Gui extends JFrame implements ActionListener {
         displayTeam = team;
         add(lblAskSeePlayersDrafted);
         setBackground(lblAskSeePlayersDrafted);
-        lblAskSeePlayersDrafted.setText("Would you like to see the players you drafted?");
 
         lblAskSeePlayersDrafted.setHorizontalTextPosition(JLabel.CENTER);
         lblAskSeePlayersDrafted.setVerticalTextPosition(JLabel.CENTER);
@@ -319,12 +374,10 @@ public class Gui extends JFrame implements ActionListener {
         buttonYesNo(btnYes);
 
         if (displayTeam == teamOne) {
-            System.out.println("1");
             btnNoUserOne.setBounds(500, 500, 120, 50);
             btnNoUserOne.addActionListener(this);
             buttonYesNo(btnNoUserOne);
         } else {
-            System.out.println("2");
             btnNoUserTwo.setBounds(500, 500, 120, 50);
             btnNoUserTwo.addActionListener(this);
             buttonYesNo(btnNoUserTwo);
@@ -347,13 +400,13 @@ public class Gui extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: Displays the players on the users team
     public void displayPlayersForUsersTeam() {
-        add(lblDisplayPlayers);
-        setBackground(lblDisplayPlayers);
+        add(lblDisplayPlayersForUsersTeam);
+        setBackground(lblDisplayPlayersForUsersTeam);
 
         panel.removeAll(); // removing all the content previously on panel
-        lblDisplayPlayers.setLayout(new GridBagLayout());
-        lblDisplayPlayers.add(panel, new GridBagConstraints());
-        panel.setLayout(new GridLayout(6, 6, 30, 2));
+        lblDisplayPlayersForUsersTeam.setLayout(new GridBagLayout());
+        lblDisplayPlayersForUsersTeam.add(panel, new GridBagConstraints());
+        panel.setLayout(new GridLayout(7, 6, 30, 2));
         addPlayersToPanel();
         changeFont();
         buttonNext();
@@ -385,31 +438,143 @@ public class Gui extends JFrame implements ActionListener {
         }
     }
 
-    // FIX THIS
+    // MODIFIES: this
+    // EFFECTS: Displays the "next" button
     public void buttonNext() {
-        btnNext.setBounds(300, 500, 120, 50);
+        JButton btnNext;
+        if (!nextBtnPassed) {
+            btnNext = btnNextOne;
+        } else {
+            btnNext = btnNextTwo;
+        }
+        panel.add(btnNext);
+        btnNext.setBounds(350, 500, 120, 50);
         btnNext.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
         btnNext.setBackground(Color.LIGHT_GRAY);
         btnNext.setForeground(Color.BLACK);
         btnNext.setFont(new Font("Plain", Font.BOLD, 20));
         btnNext.setFocusable(false);
-
         btnNext.addActionListener(this);
+    }
 
-        lblDisplayPlayers.add(btnNext);
-        add(lblDisplayPlayers);
+    // MODIFIES: this
+    // EFFECTS: Displays the players from the loaded file
+    public void displayPlayersFromFile() {
+        teamOne = allFantasyTeams.getTeams().get(0);
+        teamTwo = allFantasyTeams.getTeams().get(1);
+
+        add(lblDisplayPlayersFromFile);
+        setBackground(lblDisplayPlayersFromFile);
+        lblDisplayPlayersFromFile.setLayout(new GridBagLayout());
+        lblDisplayPlayersFromFile.add(panel, new GridBagConstraints());
+        panel.setLayout(new GridLayout(6, 2, 60, 2));
+
+        panel.add(new JLabel(teamOne.getUser() + "'s team:"));
+        panel.add(new JLabel(teamTwo.getUser() + "'s team:"));
+        for (int i = 0; i < teamOne.getFantasyTeam().size(); ++i) {
+            panel.add(new JLabel(teamOne.getFantasyTeam().get(i).getName()));
+            panel.add(new JLabel(teamTwo.getFantasyTeam().get(i).getName()));
+        }
+        changeFont();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Asks the user if they want to save progress to file
+    public void askUserSaveToFile() {
+        add(lblAskUsersSaveToFile);
+        setBackground(lblAskUsersSaveToFile);
+
+        lblAskUsersSaveToFile.setHorizontalTextPosition(JLabel.CENTER);
+        lblAskUsersSaveToFile.setVerticalTextPosition(JLabel.CENTER);
+        lblAskUsersSaveToFile.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+        lblAskUsersSaveToFile.setForeground(Color.white);
     }
 
     // SHORTEN THIS
     // Listens for events
     @Override
     public void actionPerformed(ActionEvent e) {
+        actionsStartUpScreen(e);
+//        if (e.getSource() == btnPlay) {
+//            remove(lblStartUpScreen);
+//            getUsers();
+//        } else if (e.getSource() == btnQuit) {
+//            System.exit(0);
+//        } else if (e.getSource() == btnLoad) {
+//            try {
+//                allFantasyTeams = this.jsonReader.read();
+//                System.out.println("Loaded file from " + JSON_STORE + "\n");
+//                remove(lblStartUpScreen);
+//                displayPlayersFromFile();
+//                // ADD BUTTON NEXT
+//            } catch (IOException f) {
+//                System.out.println("Unable to read from file: " + JSON_STORE + "\n");
+//            }
+        actionsSubmitBtns(e);
+//        else if (e.getSource() == btnSubmitUsers) {
+//            teamOne = new FantasyTeam(textUserOne.getText());
+//            teamTwo = new FantasyTeam(textUserTwo.getText());
+//            System.out.println(teamOne.getUser() + ", " + teamTwo.getUser());
+//            remove(lblGetUsers);
+//            remove(lblDisplayPlayersFromFile);
+//            getPlayers(btnSubmitPlayersUserOne);
+//        } else if (e.getSource() == btnSubmitPlayersUserOne) {
+//            addTextFieldsToList();
+//            createFantasyTeam(teamOne);
+//            remove(lblGetPlayers);
+//            askSeePlayersDrafted(teamOne);
+        actionsYesNoBtns(e);
+//        } else if (e.getSource() == btnYes) {
+//            remove(lblAskSeePlayersDrafted);
+//            displayPlayersForUsersTeam();
+//            buttonNext();
+//        } else if (e.getSource() == btnNoUserOne) {
+//            remove(lblAskSeePlayersDrafted);
+//            getPlayers(btnSubmitPlayersUserTwo);
+//        } else if (e.getSource() == btnNext) {
+//            //removeAll();
+//            System.out.println("TEST");
+//        } else if (e.getSource() == btnSubmitPlayersUserTwo) {
+//            addTextFieldsToList();
+//            createFantasyTeam(teamTwo);
+//            remove(lblGetPlayers);
+//            lblAskSeePlayersDrafted.remove(btnNoUserOne);
+//            askSeePlayersDrafted(teamTwo);
+//        } else if (e.getSource() == btnNoUserTwo) {
+//            remove(lblAskSeePlayersDrafted);
+//        }
+        actionsNextBtns(e);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Listens for events on the start up screen
+    public void actionsStartUpScreen(ActionEvent e) {
         if (e.getSource() == btnPlay) {
             remove(lblStartUpScreen);
             getUsers();
-        } else if (e.getSource() == btnSubmitUsers) {
+        } else if (e.getSource() == btnQuit) {
+            System.exit(0);
+        } else if (e.getSource() == btnLoad) {
+            try {
+                allFantasyTeams = this.jsonReader.read();
+                System.out.println("Loaded file from " + JSON_STORE + "\n");
+                remove(lblStartUpScreen);
+                displayPlayersFromFile();
+                // ADD BUTTON NEXT
+            } catch (IOException f) {
+                System.out.println("Unable to read from file: " + JSON_STORE + "\n");
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Listens for events related to "submit" buttons
+    public void actionsSubmitBtns(ActionEvent e) {
+        if (e.getSource() == btnSubmitUsers) {
             teamOne = new FantasyTeam(textUserOne.getText());
             teamTwo = new FantasyTeam(textUserTwo.getText());
+            allFantasyTeams.addTeam(teamOne);
+            allFantasyTeams.addTeam(teamTwo);
             System.out.println(teamOne.getUser() + ", " + teamTwo.getUser());
             remove(lblGetUsers);
             getPlayers(btnSubmitPlayersUserOne);
@@ -418,21 +583,41 @@ public class Gui extends JFrame implements ActionListener {
             createFantasyTeam(teamOne);
             remove(lblGetPlayers);
             askSeePlayersDrafted(teamOne);
-        } else if (e.getSource() == btnYes) {
-            remove(lblAskSeePlayersDrafted);
-            displayPlayersForUsersTeam();
-            // add a next button to go to getPlayers(btnSubmitPlayersUserTwo);
-        } else if (e.getSource() == btnNoUserOne) {
-            remove(lblAskSeePlayersDrafted);
-            getPlayers(btnSubmitPlayersUserTwo);
         } else if (e.getSource() == btnSubmitPlayersUserTwo) {
             addTextFieldsToList();
             createFantasyTeam(teamTwo);
             remove(lblGetPlayers);
             lblAskSeePlayersDrafted.remove(btnNoUserOne);
             askSeePlayersDrafted(teamTwo);
+        }
+    }
+
+    // EFFECTS: Listens for events related to "yes" or "no" buttons
+    public void actionsYesNoBtns(ActionEvent e) {
+        if (e.getSource() == btnYes) {
+            remove(lblAskSeePlayersDrafted);
+            displayPlayersForUsersTeam();
+        } else if (e.getSource() == btnNoUserOne) {
+            nextBtnPassed = true;
+            remove(lblAskSeePlayersDrafted);
+            getPlayers(btnSubmitPlayersUserTwo);
         } else if (e.getSource() == btnNoUserTwo) {
             remove(lblAskSeePlayersDrafted);
+            askUserSaveToFile();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Listens for events related to "next" buttons
+    public void actionsNextBtns(ActionEvent e) {
+        if (e.getSource() == btnNextOne) {
+            System.out.println("BUTTON ONE");
+            nextBtnPassed = true;
+            remove(lblDisplayPlayersForUsersTeam);
+            getPlayers(btnSubmitPlayersUserTwo);
+        } else if (e.getSource() == btnNextTwo) {
+            remove(lblDisplayPlayersForUsersTeam);
+            askUserSaveToFile();
         }
     }
 }
