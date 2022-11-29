@@ -538,54 +538,8 @@ public class Gui extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         actionsStartUpScreen(e);
-//        if (e.getSource() == btnPlay) {
-//            remove(lblStartUpScreen);
-//            getUsers();
-//        } else if (e.getSource() == btnQuit) {
-//            System.exit(0);
-//        } else if (e.getSource() == btnLoad) {
-//            try {
-//                allFantasyTeams = this.jsonReader.read();
-//                System.out.println("Loaded file from " + JSON_STORE + "\n");
-//                remove(lblStartUpScreen);
-//                displayPlayersFromFile();
-//                // ADD BUTTON NEXT
-//            } catch (IOException f) {
-//                System.out.println("Unable to read from file: " + JSON_STORE + "\n");
-//            }
         actionsSubmitBtns(e);
-//        else if (e.getSource() == btnSubmitUsers) {
-//            teamOne = new FantasyTeam(textUserOne.getText());
-//            teamTwo = new FantasyTeam(textUserTwo.getText());
-//            System.out.println(teamOne.getUser() + ", " + teamTwo.getUser());
-//            remove(lblGetUsers);
-//            remove(lblDisplayPlayersFromFile);
-//            getPlayers(btnSubmitPlayersUserOne);
-//        } else if (e.getSource() == btnSubmitPlayersUserOne) {
-//            addTextFieldsToList();
-//            createFantasyTeam(teamOne);
-//            remove(lblGetPlayers);
-//            askSeePlayersDrafted(teamOne);
         actionsYesNoBtns(e);
-//        } else if (e.getSource() == btnYes) {
-//            remove(lblAskSeePlayersDrafted);
-//            displayPlayersForUsersTeam();
-//            buttonNext();
-//        } else if (e.getSource() == btnNoUserOne) {
-//            remove(lblAskSeePlayersDrafted);
-//            getPlayers(btnSubmitPlayersUserTwo);
-//        } else if (e.getSource() == btnNext) {
-//            //removeAll();
-//            System.out.println("TEST");
-//        } else if (e.getSource() == btnSubmitPlayersUserTwo) {
-//            addTextFieldsToList();
-//            createFantasyTeam(teamTwo);
-//            remove(lblGetPlayers);
-//            lblAskSeePlayersDrafted.remove(btnNoUserOne);
-//            askSeePlayersDrafted(teamTwo);
-//        } else if (e.getSource() == btnNoUserTwo) {
-//            remove(lblAskSeePlayersDrafted);
-//        }
         actionsNextBtns(e);
     }
 
