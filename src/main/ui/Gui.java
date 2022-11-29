@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class Gui extends JFrame implements ActionListener {
     private JButton btnNoUserTwo;
     private JButton btnNextOne;
     private JButton btnNextTwo;
+    private JButton btnSave;
     private boolean nextBtnPassed = false; // boolean to check if btnNextOne has already been passed
 
     private ImageIcon basketballCourtImg;
@@ -99,6 +101,7 @@ public class Gui extends JFrame implements ActionListener {
         btnPlay = new JButton("Play");
         btnQuit = new JButton("Quit");
         btnLoad = new JButton("Load");
+        btnSave = new JButton("Save");
         lblGetUsers = new JLabel();
     }
 
@@ -394,7 +397,6 @@ public class Gui extends JFrame implements ActionListener {
         btn.setFocusable(false);
 
         lblAskSeePlayersDrafted.add(btn);
-        add(lblAskSeePlayersDrafted);
     }
 
     // MODIFIES: this
@@ -488,6 +490,47 @@ public class Gui extends JFrame implements ActionListener {
         lblAskUsersSaveToFile.setVerticalTextPosition(JLabel.CENTER);
         lblAskUsersSaveToFile.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
         lblAskUsersSaveToFile.setForeground(Color.white);
+        buttonSave();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays "save" button
+    public void buttonSave() {
+        btnSave.setBounds(350, 500, 120, 50);
+        btnSave.addActionListener(this);
+        btnSave.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnSave.setBackground(Color.LIGHT_GRAY);
+        btnSave.setForeground(Color.BLACK);
+        btnSave.setFont(new Font("Plain", Font.BOLD, 20));
+        btnSave.setFocusable(false);
+
+        lblAskUsersSaveToFile.add(btnSave);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Loads fantasy team info from file
+    public void loadFile() {
+        try {
+            allFantasyTeams = this.jsonReader.read();
+            System.out.println("Loaded file from " + JSON_STORE + "\n");
+            remove(lblStartUpScreen);
+            displayPlayersFromFile();
+        } catch (IOException f) {
+            System.out.println("Unable to read from file: " + JSON_STORE + "\n");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Saves fantasy team info to file
+    public void saveFile() {
+        try {
+            this.jsonWriter.open();
+            this.jsonWriter.write(allFantasyTeams);
+            this.jsonWriter.close();
+            System.out.println("Saved file to " + JSON_STORE + "\n");
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE + "\n");
+        }
     }
 
     // SHORTEN THIS
@@ -555,15 +598,9 @@ public class Gui extends JFrame implements ActionListener {
         } else if (e.getSource() == btnQuit) {
             System.exit(0);
         } else if (e.getSource() == btnLoad) {
-            try {
-                allFantasyTeams = this.jsonReader.read();
-                System.out.println("Loaded file from " + JSON_STORE + "\n");
-                remove(lblStartUpScreen);
-                displayPlayersFromFile();
-                // ADD BUTTON NEXT
-            } catch (IOException f) {
-                System.out.println("Unable to read from file: " + JSON_STORE + "\n");
-            }
+            loadFile();
+        } else if (e.getSource() == btnSave) {
+            saveFile();
         }
     }
 

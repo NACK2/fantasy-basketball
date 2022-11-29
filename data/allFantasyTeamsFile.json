@@ -1,36 +1,36 @@
 {"All Fantasy Teams": [
     {
-        "Team total score": 230,
+        "Team total score": 0,
         "Total blocks": 0,
-        "Team match score": 121,
+        "Team match score": 0,
         "Total assists": 0,
-        "Total points": 82,
+        "Total points": 0,
         "Username": "Nick",
-        "Total rebounds": 39,
+        "Total rebounds": 0,
         "Total steals": 0,
         "Players": [
-            {"Player name": "Michael Jordan"},
             {"Player name": "LeBron James"},
-            {"Player name": "Kevin Durant"},
-            {"Player name": "Anthony Edwards"},
+            {"Player name": "Jrue Holiday"},
+            {"Player name": "Klay Thompson"},
+            {"Player name": "Hakeem Olajuwon"},
             {"Player name": "DeMar DeRozen"}
         ]
     },
     {
-        "Team total score": 253,
+        "Team total score": 0,
         "Total blocks": 0,
-        "Team match score": 103,
+        "Team match score": 0,
         "Total assists": 0,
-        "Total points": 60,
+        "Total points": 0,
         "Username": "Hugo",
-        "Total rebounds": 43,
+        "Total rebounds": 0,
         "Total steals": 0,
         "Players": [
             {"Player name": "LaMelo Ball"},
             {"Player name": "Lonzo Ball"},
-            {"Player name": "Carmelo Anthony"},
-            {"Player name": "Jeremy Lin"},
-            {"Player name": "Patrick Ewing"}
+            {"Player name": "LiAngelo Ball"},
+            {"Player name": "Kyrie Irving"},
+            {"Player name": "Tyler Herro"}
         ]
     }
 ]}
