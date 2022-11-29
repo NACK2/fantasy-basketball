@@ -40,3 +40,16 @@ same time.
 
 Note: The persistence packages in main and test were modeled after 
 https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
+# Instructions for Grader
+- First "Adding Multiple X's to Y": Click "play", then you will be asked to enter two user names. The two usernames will be
+added to a FantasyTeam class and will be used as the owner name of a fantasy team
+- Second "Adding Multiple X's to Y": After entering two user names, both users
+will get a chance to draft 5 players by entering the players name, team, height, etc. That information
+will be used to create a Player class, then that Player class will be added to a FantasyTeam class, which will
+eventually be added to an AllFantasyTeam class
+- The visual component is the background image of a basketball court that remains throughout the entire program
+- The user can save to file after both users have drafted players to their team (Note: After saving to file,
+there is no more functionality beyond that as of yet, which is why you can't do anything after saving)
+- The user can load from file at the beginning of the program (Note, after loading from file, the players loaded
+from file will display on screen, but there is no functionality from there, you must restart the program)
