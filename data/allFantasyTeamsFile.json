@@ -5,15 +5,15 @@
         "Team match score": 0,
         "Total assists": 0,
         "Total points": 0,
-        "Username": "1",
+        "Username": "Nick",
         "Total rebounds": 0,
         "Total steals": 0,
         "Players": [
-            {"Player name": ""},
-            {"Player name": ""},
-            {"Player name": ""},
-            {"Player name": ""},
-            {"Player name": ""}
+            {"Player name": "LeBron James"},
+            {"Player name": "KD"},
+            {"Player name": "Stephen Curry"},
+            {"Player name": "Jayson Tatum"},
+            {"Player name": "Michael Jordan"}
         ]
     },
     {
@@ -22,15 +22,15 @@
         "Team match score": 0,
         "Total assists": 0,
         "Total points": 0,
-        "Username": "2",
+        "Username": "Alex",
         "Total rebounds": 0,
         "Total steals": 0,
         "Players": [
-            {"Player name": ""},
-            {"Player name": ""},
-            {"Player name": ""},
-            {"Player name": ""},
-            {"Player name": ""}
+            {"Player name": "Lamelo Ball"},
+            {"Player name": "Lonzo Ball"},
+            {"Player name": "Liangelo Ball"},
+            {"Player name": "Karl Malone"},
+            {"Player name": "Tyler Herro"}
         ]
     }
 ]}

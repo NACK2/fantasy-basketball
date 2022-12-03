@@ -24,6 +24,7 @@ public class Gui extends JFrame implements ActionListener {
     private JLabel lblGetUsers;
     private JLabel lblEnterUserOne;
     private JLabel lblEnterUserTwo;
+    private JLabel lblDisplaysUsers;
     private JLabel lblGetPlayers;
     private JLabel lblPlayerName;
     private JLabel lblPlayerTeam;
@@ -42,6 +43,7 @@ public class Gui extends JFrame implements ActionListener {
     private JButton btnQuit;
     private JButton btnLoad;
     private JButton btnSubmitUsers;
+    private JButton btnOkay;
     private JButton btnSubmitPlayersUserOne;
     private JButton btnSubmitPlayersUserTwo;
     private JButton btnYes;
@@ -116,6 +118,8 @@ public class Gui extends JFrame implements ActionListener {
         lblEnterUserOne = new JLabel("Enter user 1's username: ");
         lblEnterUserTwo = new JLabel("Enter user 2's username: ");
         btnSubmitUsers = new JButton("Submit");
+        lblDisplaysUsers = new JLabel();
+        btnOkay = new JButton("Okay");
     }
 
     // MODIFIES: this
@@ -183,7 +187,7 @@ public class Gui extends JFrame implements ActionListener {
         lblStartUpScreen.setHorizontalTextPosition(JLabel.CENTER);
         lblStartUpScreen.setVerticalTextPosition(JLabel.CENTER);
         lblStartUpScreen.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
-        lblStartUpScreen.setForeground(Color.white);
+        lblStartUpScreen.setForeground(Color.WHITE);
 
         startUpScreenButtons();
     }
@@ -277,7 +281,20 @@ public class Gui extends JFrame implements ActionListener {
         lblGetPlayers.add(panel, new GridBagConstraints());
         panel.setLayout(new GridLayout(7, 6, 30, 2));
         panel.removeAll(); // removing all the content previously on panel
+        addToPanelForGetPlayers();
 
+        panel.add(btnSubmit);
+        btnSubmit.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnSubmit.setBackground(Color.LIGHT_GRAY);
+        btnSubmit.setForeground(Color.BLACK);
+        btnSubmit.addActionListener(this);
+        btnSubmit.setFocusable(false);
+        changeFont();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Adds labels to panels for when user inputs player info
+    public void addToPanelForGetPlayers() {
         addPlayerLabelHeadings();
         panel.add(lblPlayerName);
         addTextFields();
@@ -289,14 +306,6 @@ public class Gui extends JFrame implements ActionListener {
         addTextFields();
         panel.add(lblPlayerWeight);
         addTextFields();
-        panel.add(btnSubmit);
-
-        btnSubmit.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
-        btnSubmit.setBackground(Color.LIGHT_GRAY);
-        btnSubmit.addActionListener(this);
-        btnSubmit.setFocusable(false);
-
-        changeFont();
     }
 
     // MODIFIES: this
@@ -366,7 +375,7 @@ public class Gui extends JFrame implements ActionListener {
         lblAskSeePlayersDrafted.setHorizontalTextPosition(JLabel.CENTER);
         lblAskSeePlayersDrafted.setVerticalTextPosition(JLabel.CENTER);
         lblAskSeePlayersDrafted.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
-        lblAskSeePlayersDrafted.setForeground(Color.white);
+        lblAskSeePlayersDrafted.setForeground(Color.WHITE);
 
         btnYes.setBounds(200, 500, 120, 50);
         btnYes.addActionListener(this);
@@ -446,7 +455,7 @@ public class Gui extends JFrame implements ActionListener {
             btnNext = btnNextTwo;
         }
         panel.add(btnNext);
-        btnNext.setBounds(350, 500, 120, 50);
+        // btnNext.setBounds(350, 500, 120, 50);
         btnNext.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
         btnNext.setBackground(Color.LIGHT_GRAY);
         btnNext.setForeground(Color.BLACK);
@@ -477,6 +486,37 @@ public class Gui extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
+    // EFFECTS: Displays the two users who will play the game
+    public void displayUsers() {
+        add(lblDisplaysUsers);
+        setBackground(lblDisplaysUsers);
+        lblDisplaysUsers.setLayout(new GridBagLayout());
+        panel.removeAll();
+        lblDisplaysUsers.add(panel, new GridBagConstraints());
+        panel.setLayout(new GridLayout(3, 2, 20, 2));
+
+        panel.add(new JLabel("User 1: "));
+        panel.add(new JLabel(textUserOne.getText()));
+        panel.add(new JLabel("User 2: "));
+        panel.add(new JLabel(textUserTwo.getText()));
+        changeFont();
+        buttonOkay();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays "okay" button
+    public void buttonOkay() {
+        panel.add(btnOkay);
+        btnOkay.setBounds(350, 500, 120, 50);
+        btnOkay.setBorder(BorderFactory.createEtchedBorder()); // Gives button 3D look
+        btnOkay.setBackground(Color.LIGHT_GRAY);
+        btnOkay.setForeground(Color.BLACK);
+        btnOkay.setFont(new Font("Plain", Font.BOLD, 15));
+        btnOkay.setFocusable(false);
+        btnOkay.addActionListener(this);
+    }
+
+    // MODIFIES: this
     // EFFECTS: Asks the user if they want to save progress to file
     public void askUserSaveToFile() {
         add(lblAskUsersSaveToFile);
@@ -485,7 +525,7 @@ public class Gui extends JFrame implements ActionListener {
         lblAskUsersSaveToFile.setHorizontalTextPosition(JLabel.CENTER);
         lblAskUsersSaveToFile.setVerticalTextPosition(JLabel.CENTER);
         lblAskUsersSaveToFile.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
-        lblAskUsersSaveToFile.setForeground(Color.white);
+        lblAskUsersSaveToFile.setForeground(Color.WHITE);
         buttonSave();
         buttonQuit(lblAskUsersSaveToFile);
     }
@@ -530,7 +570,7 @@ public class Gui extends JFrame implements ActionListener {
         }
     }
 
-    // EFFECTS:
+    // EFFECTS: Displays event log
     public void displayEventLog() {
         for (Event e : EventLog.getInstance()) {
             System.out.println(e.toString());
@@ -573,7 +613,8 @@ public class Gui extends JFrame implements ActionListener {
             allFantasyTeams.addTeam(teamTwo);
             // System.out.println(teamOne.getUser() + ", " + teamTwo.getUser());
             remove(lblGetUsers);
-            getPlayers(btnSubmitPlayersUserOne);
+            displayUsers();
+            // getPlayers(btnSubmitPlayersUserOne);
         } else if (e.getSource() == btnSubmitPlayersUserOne) {
             addTextFieldsToList();
             createFantasyTeam(teamOne);
@@ -588,6 +629,7 @@ public class Gui extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: Listens for events related to "yes" or "no" buttons
     public void actionsYesNoBtns(ActionEvent e) {
         if (e.getSource() == btnYes) {
@@ -600,6 +642,9 @@ public class Gui extends JFrame implements ActionListener {
         } else if (e.getSource() == btnNoUserTwo) {
             remove(lblAskSeePlayersDrafted);
             askUserSaveToFile();
+        } else if (e.getSource() == btnOkay) {
+            remove(lblDisplaysUsers);
+            getPlayers(btnSubmitPlayersUserOne);
         }
     }
 
