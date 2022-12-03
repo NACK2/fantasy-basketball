@@ -16,9 +16,6 @@ public class FantasyTeam implements Writeable {
     private int totalAssists;
     private int totalSteals;
     private int totalBlocks;
-//    private int totalWins;
-//    private int totalLosses;
-//    private int totalDraws;
     private int teamMatchScore;
     private int teamTotalScore;
 

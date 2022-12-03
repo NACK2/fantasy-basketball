@@ -281,13 +281,13 @@ public class FantasyBasketballApp {
     public void assignHeight(Player player) {
         System.out.println("Please enter the players current height in centimetres: ");
         this.userInput = input.next();
-        player.setHeight(Double.parseDouble(this.userInput));
+        player.setHeight(this.userInput);
     }
 
     public void assignWeight(Player player) {
         System.out.println("Please enter the players current weight in kilograms: ");
         this.userInput = input.next();
-        player.setWeight(Double.parseDouble(this.userInput));
+        player.setWeight(this.userInput);
     }
 
     // EFFECTS: Displays all the players in every fantasy team

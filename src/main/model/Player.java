@@ -8,8 +8,8 @@ public class Player implements Writeable {
     private String name;
     private String team;
     private String position;
-    private double height;
-    private double weight;
+    private String height;
+    private String weight;
     private int points;
     private int rebounds;
     private int assists;
@@ -46,13 +46,13 @@ public class Player implements Writeable {
         this.position = position;
     }
 
-    // REQUIRES: Height > 0 in centimetres (must be number not string)
-    public void setHeight(double height) {
+    // REQUIRES: Height > 0 in centimetres
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    // REQUIRES: Weight > 0 in kilograms (must be number not string)
-    public void setWeight(double weight) {
+    // REQUIRES: Weight > 0 in kilograms
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -108,11 +108,11 @@ public class Player implements Writeable {
         return this.position;
     }
 
-    public double getHeight() {
+    public String getHeight() {
         return this.height;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return this.weight;
     }
 

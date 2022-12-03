@@ -138,8 +138,8 @@ public class Gui extends JFrame implements ActionListener {
     public void initSeePlayersDrafted() {
         lblAskSeePlayersDrafted = new JLabel("Would you like to see the players you drafted?");
         btnYes = new JButton("Yes");
-        btnNoUserOne = new JButton("No 1");
-        btnNoUserTwo = new JButton("No 2");
+        btnNoUserOne = new JButton("No");
+        btnNoUserTwo = new JButton("No");
         lblDisplayPlayersForUsersTeam = new JLabel();
         btnNextOne = new JButton("Next");
         btnNextTwo = new JButton("Next");
@@ -325,19 +325,14 @@ public class Gui extends JFrame implements ActionListener {
             if (c instanceof JTextField) {
                 if (i >= 1 && i <= 5) { // first 5 text fields in the panel are for player names
                     playerNames.add(((JTextField) c).getText());
-                    System.out.println("NAME: " + ((JTextField)c).getText());
                 } else if (i <= 10) { // next 5 text fields in the panel are for team names
                     playerTeams.add(((JTextField) c).getText());
-                    System.out.println("TEAM: " + ((JTextField)c).getText());
                 } else if (i <= 15) {
                     playerPositions.add(((JTextField) c).getText());
-                    System.out.println("POSITION: " + ((JTextField)c).getText());
                 } else if (i <= 20) {
                     playerHeights.add(((JTextField) c).getText());
-                    System.out.println("HEIGHT: " + ((JTextField)c).getText());
                 } else if (i <= 25) {
                     playerWeights.add(((JTextField) c).getText());
-                    System.out.println("WEIGHT: " + ((JTextField)c).getText());
                 }
                 ++i;
             }
@@ -353,8 +348,8 @@ public class Gui extends JFrame implements ActionListener {
             player.setName(playerNames.get(i));
             player.setTeam(playerTeams.get(i));
             player.setPosition(playerPositions.get(i));
-            player.setHeight(Double.parseDouble(playerHeights.get(i)));
-            player.setWeight(Double.parseDouble(playerWeights.get(i)));
+            player.setHeight(playerHeights.get(i));
+            player.setWeight(playerWeights.get(i));
             team.draftPlayer(player);
             allPlayers.addPlayer(player);
         }
@@ -432,11 +427,11 @@ public class Gui extends JFrame implements ActionListener {
         }
         panel.add(lblPlayerHeight);
         for (Player p : displayTeam.getFantasyTeam()) {
-            panel.add(new JLabel(Double.toString(p.getHeight())));
+            panel.add(new JLabel(p.getHeight()));
         }
         panel.add(lblPlayerWeight);
         for (Player p : displayTeam.getFantasyTeam()) {
-            panel.add(new JLabel(Double.toString(p.getWeight())));
+            panel.add(new JLabel(p.getWeight()));
         }
     }
 
@@ -566,7 +561,7 @@ public class Gui extends JFrame implements ActionListener {
             teamTwo = new FantasyTeam(textUserTwo.getText());
             allFantasyTeams.addTeam(teamOne);
             allFantasyTeams.addTeam(teamTwo);
-            System.out.println(teamOne.getUser() + ", " + teamTwo.getUser());
+            // System.out.println(teamOne.getUser() + ", " + teamTwo.getUser());
             remove(lblGetUsers);
             getPlayers(btnSubmitPlayersUserOne);
         } else if (e.getSource() == btnSubmitPlayersUserOne) {
@@ -602,7 +597,6 @@ public class Gui extends JFrame implements ActionListener {
     // EFFECTS: Listens for events related to "next" buttons
     public void actionsNextBtns(ActionEvent e) {
         if (e.getSource() == btnNextOne) {
-            System.out.println("BUTTON ONE");
             nextBtnPassed = true;
             remove(lblDisplayPlayersForUsersTeam);
             getPlayers(btnSubmitPlayersUserTwo);
