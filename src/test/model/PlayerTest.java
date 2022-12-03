@@ -33,26 +33,26 @@ public class PlayerTest {
 
     @Test
     public void setHeightTest1() {
-        player.setHeight(201);
-        assertEquals(201, player.getHeight());
+        player.setHeight("201");
+        assertEquals("201", player.getHeight());
     }
 
     @Test
     public void setHeightTest2() {
-        player.setHeight(1);
-        assertEquals(1, player.getHeight());
+        player.setHeight("1");
+        assertEquals("1", player.getHeight());
     }
 
     @Test
     public void setWeightTest1() {
-        player.setWeight(75);
-        assertEquals(75, player.getWeight());
+        player.setWeight("75");
+        assertEquals("75", player.getWeight());
     }
 
     @Test
     public void setWeightTest2() {
-        player.setWeight(1);
-        assertEquals(1, player.getWeight());
+        player.setWeight("1");
+        assertEquals("1", player.getWeight());
     }
 
     @Test
