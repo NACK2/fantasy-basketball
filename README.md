@@ -90,3 +90,8 @@ A player was drafted to a fantasy team
 
 Fri Dec 02 20:19:26 PST 2022 \
 A player was drafted to a fantasy team
+
+# Phase 4: Task 3
+- I think I would refactor my code within the classes of the ui package
+  - My code is pretty messy and may be hard for readers to follow along, so making it neater by refactoring 
+  would make it easier for others to understand
