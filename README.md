@@ -53,3 +53,40 @@ eventually be added to an AllFantasyTeam class
 there is no more functionality beyond that as of yet, which is why you can't do anything after saving)
 - The user can load from file at the beginning of the program (Note, after loading from file, the players loaded
 from file will display on screen, but there is no functionality from there, you must restart the program)
+
+# Phase 4: Task 2
+Fri Dec 02 20:19:24 PST 2022 \
+A fantasy team was created, a user was set as owner of the fantasy team.
+
+Fri Dec 02 20:19:24 PST 2022 \
+A fantasy team was created, a user was set as owner of the fantasy team.
+
+Fri Dec 02 20:19:24 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:24 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:24 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:24 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:24 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:26 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:26 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:26 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:26 PST 2022 \
+A player was drafted to a fantasy team
+
+Fri Dec 02 20:19:26 PST 2022 \
+A player was drafted to a fantasy team

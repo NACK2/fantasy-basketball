@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// https://www.youtube.com/watch?v=Kmgo00avvEw
+// Used this video to learn Java Swing: https://www.youtube.com/watch?v=Kmgo00avvEw
 // GUI made with swing
 public class Gui extends JFrame implements ActionListener {
     private static final String JSON_STORE = "./data/allFantasyTeamsFile.json";
@@ -190,7 +191,7 @@ public class Gui extends JFrame implements ActionListener {
     // EFFECTS: Displays all buttons on start up screen
     public void startUpScreenButtons() {
         buttonPlay();
-        buttonQuit();
+        buttonQuit(lblStartUpScreen);
         buttonLoad();
     }
 
@@ -204,10 +205,10 @@ public class Gui extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: Displays quit button
-    public void buttonQuit() {
+    public void buttonQuit(JLabel label) {
         btnQuit.setBounds(150, 500, 120, 50);
         buttonSettings(btnQuit);
-        lblStartUpScreen.add(btnQuit);
+        label.add(btnQuit);
     }
 
     // MODIFIES: this
@@ -486,6 +487,7 @@ public class Gui extends JFrame implements ActionListener {
         lblAskUsersSaveToFile.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
         lblAskUsersSaveToFile.setForeground(Color.white);
         buttonSave();
+        buttonQuit(lblAskUsersSaveToFile);
     }
 
     // MODIFIES: this
@@ -528,7 +530,14 @@ public class Gui extends JFrame implements ActionListener {
         }
     }
 
-    // SHORTEN THIS
+    // EFFECTS:
+    public void displayEventLog() {
+        for (Event e : EventLog.getInstance()) {
+            System.out.println(e.toString());
+            System.out.println();
+        }
+    }
+
     // Listens for events
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -545,6 +554,7 @@ public class Gui extends JFrame implements ActionListener {
             remove(lblStartUpScreen);
             getUsers();
         } else if (e.getSource() == btnQuit) {
+            displayEventLog();
             System.exit(0);
         } else if (e.getSource() == btnLoad) {
             loadFile();

@@ -22,6 +22,8 @@ public class FantasyTeam implements Writeable {
     // EFFECTS: Creates a fantasy team for the user
     public FantasyTeam(String user) {
         this.user = user;
+        EventLog.getInstance().logEvent(new Event("A fantasy team was created, a user "
+                + "was set as owner of the fantasy team."));
         this.fantasyTeam = new ArrayList<>();
     }
 
@@ -29,6 +31,7 @@ public class FantasyTeam implements Writeable {
     // EFFECTS: Drafts player onto users fantasy team
     public void draftPlayer(Player player) {
         this.fantasyTeam.add(player);
+        EventLog.getInstance().logEvent(new Event("A player was drafted to a fantasy team"));
     }
 
     public void setTotalPoints(int totalPoints) {

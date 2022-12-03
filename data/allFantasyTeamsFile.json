@@ -5,15 +5,15 @@
         "Team match score": 0,
         "Total assists": 0,
         "Total points": 0,
-        "Username": "Nick",
+        "Username": "1",
         "Total rebounds": 0,
         "Total steals": 0,
         "Players": [
-            {"Player name": "LeBron James"},
-            {"Player name": "Jrue Holiday"},
-            {"Player name": "Klay Thompson"},
-            {"Player name": "Hakeem Olajuwon"},
-            {"Player name": "DeMar DeRozen"}
+            {"Player name": ""},
+            {"Player name": ""},
+            {"Player name": ""},
+            {"Player name": ""},
+            {"Player name": ""}
         ]
     },
     {
@@ -22,15 +22,15 @@
         "Team match score": 0,
         "Total assists": 0,
         "Total points": 0,
-        "Username": "Hugo",
+        "Username": "2",
         "Total rebounds": 0,
         "Total steals": 0,
         "Players": [
-            {"Player name": "LaMelo Ball"},
-            {"Player name": "Lonzo Ball"},
-            {"Player name": "LiAngelo Ball"},
-            {"Player name": "Kyrie Irving"},
-            {"Player name": "Tyler Herro"}
+            {"Player name": ""},
+            {"Player name": ""},
+            {"Player name": ""},
+            {"Player name": ""},
+            {"Player name": ""}
         ]
     }
 ]}

@@ -20,6 +20,8 @@ public class AllFantasyTeams implements Writeable {
     // EFFECTS: adds fantasy team to list of all fantasy teams
     public void addTeam(FantasyTeam team) {
         allFantasyTeams.add(team);
+//        EventLog.getInstance().logEvent(new Event("A fantasy team was added to a list containing "
+//                + "all the fantasy teams."));
     }
 
     public List<FantasyTeam> getTeams() {
