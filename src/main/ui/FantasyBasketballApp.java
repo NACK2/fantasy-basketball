@@ -11,8 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-// ADD ASSISTS, STEALS, BLOCKS CALCULATIONS
-
 // Fantasy Basketball Application
 public class FantasyBasketballApp {
     private static final String JSON_STORE = "./data/allFantasyTeamsFile.json";

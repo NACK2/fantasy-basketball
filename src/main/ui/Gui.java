@@ -578,7 +578,7 @@ public class Gui extends JFrame implements ActionListener {
         }
     }
 
-    // Listens for events
+    // EFFECTS: Listens for events
     @Override
     public void actionPerformed(ActionEvent e) {
         actionsStartUpScreen(e);
