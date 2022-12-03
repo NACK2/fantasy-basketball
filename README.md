@@ -95,3 +95,6 @@ A player was drafted to a fantasy team
 - I think I would refactor my code within the classes of the ui package
   - My code is pretty messy and may be hard for readers to follow along, so making it neater by refactoring 
   would make it easier for others to understand
+  - For example, if I have a bunch of uncoherent code related to viewing a players
+  statistics, I would extract that area of code and make it a method named viewPlayers(), and 
+  I would call that method
