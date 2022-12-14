@@ -16,7 +16,6 @@ public class AllPlayers {
     // EFFECTS: Adds player onto the list of all players
     public void addPlayer(Player player) {
         players.add(player);
-        // EventLog.getInstance().logEvent(new Event("A player was added to a list containing all the players."));
     }
 
     // MODIFIES: this
