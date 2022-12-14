@@ -10,5 +10,6 @@ This application allows users to:
 - Compete against other users
 - Save their fantasy team to a file
 - Load their fantasy team from a file
+
 And more!
 
