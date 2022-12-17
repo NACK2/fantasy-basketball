@@ -1,0 +1,30 @@
+{"All Fantasy Teams": [
+    {
+        "Team total score": 39,
+        "Total blocks": 3,
+        "Team match score": 39,
+        "Total assists": 7,
+        "Total points": 15,
+        "Username": "Bob",
+        "Total rebounds": 10,
+        "Total steals": 4,
+        "Players": [
+            {"Player name": "LeBron James"},
+            {"Player name": "Kevin Durant"}
+        ]
+    },
+    {
+        "Team total score": 42,
+        "Total blocks": 2,
+        "Team match score": 42,
+        "Total assists": 10,
+        "Total points": 13,
+        "Username": "Bill",
+        "Total rebounds": 12,
+        "Total steals": 5,
+        "Players": [
+            {"Player name": "Kobe Bryant"},
+            {"Player name": "Michael Jordan"}
+        ]
+    }
+]}
