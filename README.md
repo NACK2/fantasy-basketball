@@ -1,5 +1,5 @@
 # Fantasy Basketball 
-### By Nicholas Kang
+### By NACK2
 
 This GUI desktop application allows users to be in a fantasy basketball league 
 with other users. Each user will be able to draft players of their choice.
